@@ -29,8 +29,8 @@ body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif
     radial-gradient(500px 400px at 30% 55%, rgba(255,120,240,.22), transparent 60%),
     linear-gradient(180deg,#0a0620,#1c0f52 45%,#2a1166);
   background-attachment:fixed}
-#bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:url('assets/bg-wide.png') center/cover no-repeat;opacity:.85}
-@media (max-aspect-ratio: 3/4){#bg{background-image:url('assets/bg-tall.png');background-position:center top}}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:url('assets/bg-wide.webp') center/cover no-repeat;opacity:.85}
+@media (max-aspect-ratio: 3/4){#bg{background-image:url('assets/bg-tall.webp');background-position:center top}}
 #bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,6,32,.35),rgba(10,6,32,.55) 60%,rgba(10,6,32,.75))}
 #fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .star{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 6px 1px rgba(230,220,255,.8);opacity:0;will-change:transform,opacity}
@@ -41,11 +41,11 @@ body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif
 .shooting{position:absolute;width:160px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,0),#fff);opacity:0;transform-origin:right center;filter:drop-shadow(0 0 4px #fff)}
 @media (prefers-reduced-motion: reduce){#fx{display:none}}
 main{max-width:920px;margin:0 auto;position:relative;z-index:1}
-h1{font-size:1.55rem;margin:0 0 .3rem;letter-spacing:.06em;text-shadow:0 0 18px rgba(200,170,255,.6)}
+h1{font-size:1.55rem;margin:0 0 .3rem;letter-spacing:.06em;text-shadow:0 0 18px rgba(200,170,255,.6),0 2px 12px rgba(8,4,30,.95)}
 h2{font-size:1.15rem;margin:0 0 .75rem;color:var(--accent);letter-spacing:.04em}
 h3{font-size:1rem;margin:1.2rem 0 .4rem;color:var(--gold);letter-spacing:.03em}
 p{margin:.4rem 0}
-.sub{color:var(--muted);font-size:.95rem}
+.sub{color:var(--muted);font-size:.95rem;text-shadow:0 1px 10px rgba(8,4,30,.9),0 0 2px rgba(8,4,30,.9)}
 .card{background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03)) ,var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;margin:18px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,0 10px 40px rgba(10,0,40,.45),0 0 60px rgba(150,90,255,.12)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:.25rem}
