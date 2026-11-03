@@ -117,6 +117,7 @@ footer{margin-top:28px;font-size:.82rem;color:var(--muted)}
         <label class="check"><input type="checkbox" data-sec="progression"> 進行図（ジオ）</label>
         <label class="check"><input type="checkbox" data-sec="helioProgression"> 進行図（ヘリオ）</label>
       </div>
+      <p id="secSummary" class="note" style="color:var(--gold)"></p>
       <textarea id="aiText" readonly aria-label="AIに貼る星読みデータ"></textarea>
       <div class="row">
         <button id="copyBtn" class="ghost" type="button">テキストをコピー</button>
@@ -248,8 +249,9 @@ function render({ name, chart, transits, progs, place, local, tds }) {
   $('p-drac').innerHTML = chart.draconic ? `<p class="sub"><span class="drac">ドラコニック</span>＝ドラゴンヘッド（${esc(fmtPos(chart.geo.TrueNode.lon))}）を牡羊座0度に置き直した配置。過去生で培い、当たり前にできること。</p>${wheel(chart.draconic)}${posTable(chart.draconic, { cls: 'drac' })}` : '<p class="note">この年代はドラゴンヘッドの表の範囲外です。</p>';
   $('p-transit').innerHTML = `<p class="sub">経過図（トランジット）＝ その日の空の配置が、あなたの出生図にどう触れているか。${tds.length > 1 ? '日付ごとに並べています。' : ''}</p>` + transits.map((transit, i) => `<h3>■ ${esc(tds[i])}</h3><h3>ジオ（現実のタイミング）</h3>${posTable(transit.geo, { showHouse: !!hs, cls: 'geo' })}<h3>出生図へのアスペクト（経過天体 - 出生天体）</h3>${aspectList(transit.toNatal.geo, 20)}<h3>ヘリオ（魂の流れ）</h3>${posTable(transit.helio, { cls: 'helio' })}<h3>ヘリオ出生図へのアスペクト</h3>${aspectList(transit.toNatal.helio, 12)}`).join('<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">');
   $('p-prog').innerHTML = `<p class="sub">進行図（二次進行・1日=1年）＝ 生まれてからの年数を日数に置き換えた日の配置。内側の成長の段階。</p>` + progs.map((prog, i) => `<h3>■ ${esc(tds[i])}（進行日 ${esc(prog.progressedDate.toISOString().slice(0, 10))} UTC）</h3><h3>ジオ進行</h3>${posTable(prog.geo, { showHouse: !!hs, cls: 'geo' })}<h3>出生図へのアスペクト（進行天体 - 出生天体）</h3>${aspectList(prog.toNatal.geo, 20)}<h3>ヘリオ進行</h3>${posTable(prog.helio, { cls: 'helio' })}`).join('<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">');
-  LAST = { name, chart, transits, progs };
-  setSections(TAB_SECTIONS['p-helio']);
+  LAST = { name, chart, transits, progs, birthLabel: `${local}（${place}・日本時間）` };
+  const cur = document.querySelector('.tab[aria-selected="true"]');
+  setSections(TAB_SECTIONS[(cur && cur.dataset.panel) || 'p-helio'] || TAB_SECTIONS['p-helio']);
 }
 let LAST = null;
 const TAB_SECTIONS = { 'p-helio': ['helio'], 'p-geo': ['geo'], 'p-drac': ['draconic'], 'p-transit': ['geo', 'transit'], 'p-prog': ['geo', 'progression'] };
@@ -257,8 +259,14 @@ function setSections(list) { document.querySelectorAll('#secBox input').forEach(
 function refreshText() {
   if (!LAST) return;
   const sections = {}; document.querySelectorAll('#secBox input').forEach((c) => { sections[c.dataset.sec] = c.checked; });
-  $('aiText').value = formatReport({ name: LAST.name, chart: LAST.chart, transits: LAST.transits, progressions: LAST.progs, sections });
+  $('aiText').value = formatReport({ name: LAST.name, chart: LAST.chart, transits: LAST.transits, progressions: LAST.progs, sections, birthLabel: LAST.birthLabel });
+  const names = { helio: 'ヘリオ出生図', geo: 'ジオ出生図', draconic: 'ドラコニック', transit: '経過図', progression: '進行図（ジオ）', helioProgression: '進行図（ヘリオ）' };
+  const on = Object.keys(sections).filter((k) => sections[k]).map((k) => names[k]);
+  const dates = LAST.transits.map((t) => t.date.toISOString().slice(0, 10)).join('、');
+  $('secSummary').textContent = `いま入っている内容: ${on.length ? on.join('＋') : 'なし（上のチェックを入れてください）'}${(sections.transit || sections.progression || sections.helioProgression) ? `（日付: ${dates}）` : ''}`;
 }
+// 日付を変えたら自動で計算し直す（押し忘れ防止）
+['targetDate', 'targetDate2', 'targetDate3'].forEach((id) => $(id).addEventListener('change', () => { if (LAST) $('calc').click(); }));
 document.querySelectorAll('#secBox input').forEach((c) => c.addEventListener('change', refreshText));
 
 // ---- タブ・コピー ----

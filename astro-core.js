@@ -396,7 +396,7 @@ function line(p) {
 function aspectLines(list, max = 20) {
   return list.slice(0, max).map((x) => `${x.a}-${x.b} ${x.short || x.angle + '°'} ${x.name}（オーブ${x.orb}）`);
 }
-export function formatReport({ name, chart, transit, progression, transits, progressions, mode = 'all', sections = null, targetDate }) {
+export function formatReport({ name, chart, transit, progression, transits, progressions, mode = 'all', sections = null, targetDate, birthLabel }) {
   const TR = transits || (transit ? [transit] : []);
   const PR = progressions || (progression ? [progression] : []);
   // sections: { helio, geo, draconic, transit, progression, helioProgression } の true/false。未指定なら mode に従う
@@ -404,7 +404,12 @@ export function formatReport({ name, chart, transit, progression, transits, prog
   const L = [];
   const d = chart.input.date;
   const ymd = (dt) => `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, '0')}-${String(dt.getUTCDate()).padStart(2, '0')}`;
-  L.push(`【星読みデータ】${name ? name + ' ' : ''}生年月日（UTC換算）${ymd(d)} ${chart.input.hasTime ? '' : '（出生時間なし・正午で計算・ハウス非表示）'}`);
+  const dateList = TR.map((t) => ymd(t.date));
+  const subject = (S.transit || S.progression)
+    ? `【この貼り付けの主題】${S.transit ? '経過図' : ''}${S.transit && S.progression ? '・' : ''}${S.progression ? '進行図' : ''}（${dateList.join('／')}）。出生図は照らし合わせ用の参照データで、主題ではありません。`
+    : `【この貼り付けの主題】出生図（${[S.helio && 'ヘリオ', S.geo && 'ジオ', S.draconic && 'ドラコニック'].filter(Boolean).join('・')}）。`;
+  L.push(`【星読みデータ】${name ? name + ' ' : ''}生まれた日時: ${birthLabel || ymd(d) + '（UTC）'}${chart.input.hasTime ? '' : '（出生時間なし・正午で計算・ハウス非表示）'}`);
+  L.push(subject);
   L.push('度数は「10進 / 度分」の併記。サビアン度は整数+1。');
   const layers = [S.helio && 'ヘリオ', S.geo && 'ジオ', S.draconic && 'ドラコニック'].filter(Boolean);
   L.push(`【AIへのお願い】このデータは層ごとに分かれています（含まれる層: ${layers.join('・') || 'なし'}${S.transit ? '・経過図' : ''}${S.progression ? '・進行図' : ''}${(S.transit || S.progression) && TR.length > 1 ? `。日付は${TR.map((t) => ymd(t.date)).join('／')}の${TR.length}つで、時系列に並べて流れとして読んでください` : ''}）。ヘリオはヘリオの読み方、ジオはジオの読み方で、層ごとに読んでください。層をまたいで統合せず、質問された層だけ答えてください。`);
