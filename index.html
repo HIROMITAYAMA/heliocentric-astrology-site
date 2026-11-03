@@ -35,7 +35,7 @@ input:focus,select:focus,button:focus{outline:2px solid var(--gold);outline-offs
 button{cursor:pointer;border:none;border-radius:10px;padding:.7rem 1.1rem;font-size:1rem;font-weight:600}
 .primary{background:linear-gradient(135deg,#8b5cf6,#4f46e5);color:#fff;width:100%;margin-top:12px}
 .ghost{background:rgba(255,255,255,.08);color:var(--ink);border:1px solid var(--line)}
-.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px;position:sticky;top:0;z-index:2;background:rgba(20,18,50,.92);padding:8px 0;border-radius:10px}
 .tab{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--line);padding:.45rem .8rem;border-radius:999px;font-size:.92rem}
 .tab[aria-selected="true"]{background:var(--accent);color:#120f2a;border-color:var(--accent)}
 .panel{display:none}.panel.on{display:block}
@@ -88,20 +88,24 @@ footer{margin-top:28px;font-size:.82rem;color:var(--muted)}
   <section id="result" class="card" style="display:none" aria-labelledby="res-h">
     <h2 id="res-h">結果</h2>
     <p id="resMeta" class="note"></p>
+    <p class="note"><a href="#aiCard" style="color:var(--gold)">▼ AIに貼るテキストへ（ページの下）</a></p>
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" data-panel="p-helio" aria-selected="true" type="button">ヘリオ</button>
       <button class="tab" role="tab" data-panel="p-geo" aria-selected="false" type="button">ジオ</button>
       <button class="tab" role="tab" data-panel="p-drac" aria-selected="false" type="button">ドラコニック</button>
       <button class="tab" role="tab" data-panel="p-transit" aria-selected="false" type="button">経過図</button>
       <button class="tab" role="tab" data-panel="p-prog" aria-selected="false" type="button">進行図</button>
-      <button class="tab" role="tab" data-panel="p-text" aria-selected="false" type="button">AIに貼る</button>
     </div>
     <div id="p-helio" class="panel on" role="tabpanel"></div>
     <div id="p-geo" class="panel" role="tabpanel"></div>
     <div id="p-drac" class="panel" role="tabpanel"></div>
     <div id="p-transit" class="panel" role="tabpanel"></div>
     <div id="p-prog" class="panel" role="tabpanel"></div>
-    <div id="p-text" class="panel" role="tabpanel">
+    </div>
+  </section>
+
+  <section id="aiCard" class="card" style="display:none" aria-labelledby="ai-h">
+    <h2 id="ai-h">AIに貼る</h2>
       <p class="note">下のテキストを全部コピーして、星読みAIに貼り付けてください。質問はそのあとに続けて書けます（例:「今の仕事はこのタイミングに合っている？」）。</p>
       <textarea id="aiText" readonly aria-label="AIに貼る星読みデータ"></textarea>
       <div class="row">
@@ -112,7 +116,6 @@ footer{margin-top:28px;font-size:.82rem;color:var(--muted)}
         <a id="gptLink" href="https://chatgpt.com/g/g-68faf40e50448191be95c373744e8ec6-aixyi-shi-13-heriosentoritukuzhan-xing-shu-3tunojian-toluo-zhen-pan" target="_blank" rel="noopener">▶ 星読みAI（ChatGPT）で読み解く</a>
         <span class="note">※ 新しいプラグイン版の案内は準備ができ次第ここに載せます</span>
       </div>
-    </div>
   </section>
 
   <footer>
@@ -195,6 +198,7 @@ $('calc').addEventListener('click', async () => {
     try { localStorage.setItem('helio_last', JSON.stringify({ userName: name, birthDate: bd, birthTime: $('birthTime').value, pref: prefSel.value, lat: $('lat').value, lon: $('lon').value, tz: $('tz').value, noTime, manualGeo: manual })); } catch (e) {}
     $('status').textContent = '';
     $('result').style.display = 'block';
+    $('aiCard').style.display = 'block';
     $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (e) {
     console.error(e);
