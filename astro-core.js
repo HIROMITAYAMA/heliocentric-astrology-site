@@ -396,16 +396,18 @@ function line(p) {
 function aspectLines(list, max = 20) {
   return list.slice(0, max).map((x) => `${x.a}-${x.b} ${x.short || x.angle + '°'} ${x.name}（オーブ${x.orb}）`);
 }
-export function formatReport({ name, chart, transit, progression, mode = 'all', sections = null, targetDate }) {
+export function formatReport({ name, chart, transit, progression, transits, progressions, mode = 'all', sections = null, targetDate }) {
+  const TR = transits || (transit ? [transit] : []);
+  const PR = progressions || (progression ? [progression] : []);
   // sections: { helio, geo, draconic, transit, progression, helioProgression } の true/false。未指定なら mode に従う
-  const S = sections || { helio: mode === 'all' || mode === 'helio', geo: mode === 'all' || mode === 'geo', draconic: mode === 'all' || mode === 'draconic', transit: !!transit, progression: !!progression, helioProgression: !!progression };
+  const S = sections || { helio: mode === 'all' || mode === 'helio', geo: mode === 'all' || mode === 'geo', draconic: mode === 'all' || mode === 'draconic', transit: TR.length > 0, progression: PR.length > 0, helioProgression: PR.length > 0 };
   const L = [];
   const d = chart.input.date;
   const ymd = (dt) => `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, '0')}-${String(dt.getUTCDate()).padStart(2, '0')}`;
   L.push(`【星読みデータ】${name ? name + ' ' : ''}生年月日（UTC換算）${ymd(d)} ${chart.input.hasTime ? '' : '（出生時間なし・正午で計算・ハウス非表示）'}`);
   L.push('度数は「10進 / 度分」の併記。サビアン度は整数+1。');
   const layers = [S.helio && 'ヘリオ', S.geo && 'ジオ', S.draconic && 'ドラコニック'].filter(Boolean);
-  L.push(`【AIへのお願い】このデータは層ごとに分かれています（含まれる層: ${layers.join('・') || 'なし'}${S.transit ? '・経過図' : ''}${S.progression ? '・進行図' : ''}）。ヘリオはヘリオの読み方、ジオはジオの読み方で、層ごとに読んでください。層をまたいで統合せず、質問された層だけ答えてください。`);
+  L.push(`【AIへのお願い】このデータは層ごとに分かれています（含まれる層: ${layers.join('・') || 'なし'}${S.transit ? '・経過図' : ''}${S.progression ? '・進行図' : ''}${(S.transit || S.progression) && TR.length > 1 ? `。日付は${TR.map((t) => ymd(t.date)).join('／')}の${TR.length}つで、時系列に並べて流れとして読んでください` : ''}）。ヘリオはヘリオの読み方、ジオはジオの読み方で、層ごとに読んでください。層をまたいで統合せず、質問された層だけ答えてください。`);
   if (S.helio) {
     L.push('');
     L.push('【出生図・ヘリオ（魂の本来の資質）】');
@@ -428,7 +430,7 @@ export function formatReport({ name, chart, transit, progression, mode = 'all', 
     L.push('【出生図・ドラコニック（過去生で培ったもの）】ドラゴンヘッドを牡羊座0度に置き直した位置');
     for (const k of Object.keys(chart.draconic)) L.push(line(chart.draconic[k]));
   }
-  if (S.transit && transit) {
+  if (S.transit) for (const transit of TR) {
     L.push('');
     L.push(`【経過図（トランジット）${ymd(transit.date)}】`);
     L.push('ジオ: ' + Object.keys(transit.geo).map((k) => line(transit.geo[k])).join(' ／ '));
@@ -436,13 +438,13 @@ export function formatReport({ name, chart, transit, progression, mode = 'all', 
     L.push('ヘリオ: ' + Object.keys(transit.helio).map((k) => line(transit.helio[k])).join(' ／ '));
     if (transit.toNatal.helio.length) L.push('ヘリオ出生図へのアスペクト: ' + aspectLines(transit.toNatal.helio, 15).join(' ／ '));
   }
-  if (S.progression && progression) {
+  if (S.progression) for (const progression of PR) {
     L.push('');
     L.push(`【進行図（二次進行・1日=1年）${ymd(progression.date)} 時点】`);
     L.push('ジオ: ' + Object.keys(progression.geo).map((k) => line(progression.geo[k])).join(' ／ '));
     if (progression.toNatal.geo.length) L.push('出生図へのアスペクト（進行天体-出生天体）: ' + aspectLines(progression.toNatal.geo, 25).join(' ／ '));
   }
-  if (S.helioProgression && progression) {
+  if (S.helioProgression) for (const progression of PR) {
     L.push('');
     L.push(`【ヘリオ進行図（二次進行）${ymd(progression.date)} 時点】魂の流れの段階`);
     L.push('ヘリオ進行: ' + Object.keys(progression.helio).map((k) => line(progression.helio[k])).join(' ／ '));
