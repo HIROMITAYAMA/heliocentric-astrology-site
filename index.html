@@ -14,12 +14,12 @@
 :root{
   /* 宇宙の奥行き（深紫→マゼンタ→藍）に、白銀の光線画。カードは透過ガラス */
   --bg0:#07061a; --bg1:#1b0f4d; --bg2:#5a1aa8; --bg3:#8a2be2;
-  --panel:rgba(22,14,60,.42); --panel2:rgba(255,255,255,.06); --line:rgba(210,190,255,.35); --glow:rgba(190,160,255,.55);
+  --panel:rgba(22,14,60,.34); --panel2:rgba(255,255,255,.06); --line:rgba(210,190,255,.35); --glow:rgba(190,160,255,.55);
   --ink:#f3effb; --muted:#c7bde6; --accent:#c9b6ff; --gold:#f2d9a0; --warn:#ffc08a;
   --helio:#f6d98f; --geo:#9fd8ff; --drac:#ffb1e1;
 }
 *{box-sizing:border-box}
-html,body{margin:0}
+html,body{margin:0;overflow-x:hidden}
 body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif;color:var(--ink);min-height:100vh;line-height:1.75;padding:24px 16px 72px;position:relative;
   background:
     radial-gradient(1100px 700px at 12% 8%, rgba(160,60,255,.65), transparent 62%),
@@ -29,9 +29,10 @@ body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif
     radial-gradient(500px 400px at 30% 55%, rgba(255,120,240,.22), transparent 60%),
     linear-gradient(180deg,#0a0620,#1c0f52 45%,#2a1166);
   background-attachment:fixed}
-#bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:url('assets/bg-wide.webp') center/cover no-repeat;opacity:.85}
-@media (max-aspect-ratio: 3/4){#bg{background-image:url('assets/bg-tall.webp');background-position:center top}}
-#bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,6,32,.35),rgba(10,6,32,.55) 60%,rgba(10,6,32,.75))}
+#hero{position:relative;z-index:1;width:100vw;margin:-24px 0 0 calc(50% - 50vw);height:min(66vh,700px);background:url('assets/bg-wide.webp') center 40%/cover no-repeat}
+@media (max-aspect-ratio: 3/4){#hero{height:min(74vh,640px);background-image:url('assets/bg-tall.webp');background-position:center 0}}
+#hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,6,32,.1) 0%,rgba(10,6,32,0) 30%,rgba(10,6,32,.35) 62%,rgba(14,8,44,.95) 100%)}
+#hero .inner{position:absolute;left:0;right:0;bottom:0;max-width:920px;margin:0 auto;padding:0 16px 10px;z-index:1}
 #fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .star{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 6px 1px rgba(230,220,255,.8);opacity:0;will-change:transform,opacity}
 .star.big{box-shadow:0 0 14px 4px rgba(220,200,255,.9)}
@@ -82,11 +83,12 @@ footer{margin-top:28px;font-size:.82rem;color:var(--muted)}
 </style>
 </head>
 <body>
-<div id="bg" aria-hidden="true"></div>
 <div id="fx" aria-hidden="true"></div>
 <main>
+  <header id="hero"><div class="inner">
   <h1>🌟 ヘリオセントリック占星術～人生の羅針盤～</h1>
   <p class="sub">生年月日（と、分かれば出生時間・出生地）から、<span class="helio">ヘリオ＝魂の本来の資質</span>、<span class="geo">ジオ＝肉体を持つ今の自分</span>、<span class="drac">ドラコニック＝過去生で培ったもの</span>の3つの出生図と、経過図・進行図を計算します。結果はそのままAIに貼れる形で出ます。</p>
+  </div></header>
 
   <section class="card" aria-labelledby="in-h">
     <h2 id="in-h">入力</h2>
