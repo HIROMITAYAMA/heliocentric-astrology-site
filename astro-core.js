@@ -396,13 +396,17 @@ function line(p) {
 function aspectLines(list, max = 20) {
   return list.slice(0, max).map((x) => `${x.a}-${x.b} ${x.short || x.angle + '°'} ${x.name}（オーブ${x.orb}）`);
 }
-export function formatReport({ name, chart, transit, progression, mode = 'all', targetDate }) {
+export function formatReport({ name, chart, transit, progression, mode = 'all', sections = null, targetDate }) {
+  // sections: { helio, geo, draconic, transit, progression, helioProgression } の true/false。未指定なら mode に従う
+  const S = sections || { helio: mode === 'all' || mode === 'helio', geo: mode === 'all' || mode === 'geo', draconic: mode === 'all' || mode === 'draconic', transit: !!transit, progression: !!progression, helioProgression: !!progression };
   const L = [];
   const d = chart.input.date;
   const ymd = (dt) => `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, '0')}-${String(dt.getUTCDate()).padStart(2, '0')}`;
   L.push(`【星読みデータ】${name ? name + ' ' : ''}生年月日（UTC換算）${ymd(d)} ${chart.input.hasTime ? '' : '（出生時間なし・正午で計算・ハウス非表示）'}`);
   L.push('度数は「10進 / 度分」の併記。サビアン度は整数+1。');
-  if (mode === 'all' || mode === 'helio') {
+  const layers = [S.helio && 'ヘリオ', S.geo && 'ジオ', S.draconic && 'ドラコニック'].filter(Boolean);
+  L.push(`【AIへのお願い】このデータは層ごとに分かれています（含まれる層: ${layers.join('・') || 'なし'}${S.transit ? '・経過図' : ''}${S.progression ? '・進行図' : ''}）。ヘリオはヘリオの読み方、ジオはジオの読み方で、層ごとに読んでください。層をまたいで統合せず、質問された層だけ答えてください。`);
+  if (S.helio) {
     L.push('');
     L.push('【出生図・ヘリオ（魂の本来の資質）】');
     for (const k of Object.keys(chart.helio)) L.push(line(chart.helio[k]) + (k === 'Earth' ? `（${chart.helio[k].sense}）` : ''));
@@ -410,7 +414,7 @@ export function formatReport({ name, chart, transit, progression, mode = 'all', 
     if (chart.aspects.helio.length) L.push('ヘリオのアスペクト: ' + aspectLines(chart.aspects.helio).join(' ／ '));
     if (chart.stars.helio.length) L.push('ヘリオの恒星: ' + chart.stars.helio.slice(0, 8).map((s) => `${s.body}↔${s.star}（${s.distance}°）`).join(' ／ '));
   }
-  if (mode === 'all' || mode === 'geo') {
+  if (S.geo) {
     L.push('');
     L.push('【出生図・ジオ（肉体の資質・今の自分）】');
     for (const k of Object.keys(chart.geo)) L.push(line(chart.geo[k]));
@@ -419,12 +423,12 @@ export function formatReport({ name, chart, transit, progression, mode = 'all', 
     if (chart.aspects.geo.length) L.push('ジオのアスペクト（タイト順）: ' + aspectLines(chart.aspects.geo).join(' ／ '));
     if (chart.stars.geo.length) L.push('ジオの恒星: ' + chart.stars.geo.slice(0, 8).map((s) => `${s.body}↔${s.star}（${s.distance}°）`).join(' ／ '));
   }
-  if ((mode === 'all' || mode === 'draconic') && chart.draconic) {
+  if (S.draconic && chart.draconic) {
     L.push('');
     L.push('【出生図・ドラコニック（過去生で培ったもの）】ドラゴンヘッドを牡羊座0度に置き直した位置');
     for (const k of Object.keys(chart.draconic)) L.push(line(chart.draconic[k]));
   }
-  if (transit) {
+  if (S.transit && transit) {
     L.push('');
     L.push(`【経過図（トランジット）${ymd(transit.date)}】`);
     L.push('ジオ: ' + Object.keys(transit.geo).map((k) => line(transit.geo[k])).join(' ／ '));
@@ -432,12 +436,17 @@ export function formatReport({ name, chart, transit, progression, mode = 'all', 
     L.push('ヘリオ: ' + Object.keys(transit.helio).map((k) => line(transit.helio[k])).join(' ／ '));
     if (transit.toNatal.helio.length) L.push('ヘリオ出生図へのアスペクト: ' + aspectLines(transit.toNatal.helio, 15).join(' ／ '));
   }
-  if (progression) {
+  if (S.progression && progression) {
     L.push('');
     L.push(`【進行図（二次進行・1日=1年）${ymd(progression.date)} 時点】`);
     L.push('ジオ: ' + Object.keys(progression.geo).map((k) => line(progression.geo[k])).join(' ／ '));
     if (progression.toNatal.geo.length) L.push('出生図へのアスペクト（進行天体-出生天体）: ' + aspectLines(progression.toNatal.geo, 25).join(' ／ '));
+  }
+  if (S.helioProgression && progression) {
+    L.push('');
+    L.push(`【ヘリオ進行図（二次進行）${ymd(progression.date)} 時点】魂の流れの段階`);
     L.push('ヘリオ進行: ' + Object.keys(progression.helio).map((k) => line(progression.helio[k])).join(' ／ '));
+    if (progression.toNatal.helio.length) L.push('ヘリオ出生図へのアスペクト: ' + aspectLines(progression.toNatal.helio, 12).join(' ／ '));
   }
   return L.join('\n');
 }

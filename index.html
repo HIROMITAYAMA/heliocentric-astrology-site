@@ -106,7 +106,15 @@ footer{margin-top:28px;font-size:.82rem;color:var(--muted)}
 
   <section id="aiCard" class="card" style="display:none" aria-labelledby="ai-h">
     <h2 id="ai-h">AIに貼る</h2>
-      <p class="note">下のテキストを全部コピーして、星読みAIに貼り付けてください。質問はそのあとに続けて書けます（例:「今の仕事はこのタイミングに合っている？」）。</p>
+      <p class="note">貼る層を選んでください（混ぜて読まれないように、見ているタブの層だけが入ります）。テキストをコピーして星読みAIに貼り、質問はそのあとに続けて書けます（例:「今の仕事はこのタイミングに合っている？」）。</p>
+      <div class="row" id="secBox" aria-label="貼る内容">
+        <label class="check"><input type="checkbox" data-sec="helio"> ヘリオ出生図</label>
+        <label class="check"><input type="checkbox" data-sec="geo"> ジオ出生図</label>
+        <label class="check"><input type="checkbox" data-sec="draconic"> ドラコニック</label>
+        <label class="check"><input type="checkbox" data-sec="transit"> 経過図</label>
+        <label class="check"><input type="checkbox" data-sec="progression"> 進行図（ジオ）</label>
+        <label class="check"><input type="checkbox" data-sec="helioProgression"> 進行図（ヘリオ）</label>
+      </div>
       <textarea id="aiText" readonly aria-label="AIに貼る星読みデータ"></textarea>
       <div class="row">
         <button id="copyBtn" class="ghost" type="button">テキストをコピー</button>
@@ -239,11 +247,21 @@ function render({ name, chart, transit, prog, place, local, td }) {
   $('p-drac').innerHTML = chart.draconic ? `<p class="sub"><span class="drac">ドラコニック</span>＝ドラゴンヘッド（${esc(fmtPos(chart.geo.TrueNode.lon))}）を牡羊座0度に置き直した配置。過去生で培い、当たり前にできること。</p>${wheel(chart.draconic)}${posTable(chart.draconic, { cls: 'drac' })}` : '<p class="note">この年代はドラゴンヘッドの表の範囲外です。</p>';
   $('p-transit').innerHTML = `<p class="sub">経過図（トランジット）＝ ${esc(td)} の空の配置が、あなたの出生図にどう触れているか。</p><h3>ジオ（現実のタイミング）</h3>${posTable(transit.geo, { showHouse: !!hs, cls: 'geo' })}<h3>出生図へのアスペクト（経過天体 - 出生天体）</h3>${aspectList(transit.toNatal.geo, 20)}<h3>ヘリオ（魂の流れ）</h3>${posTable(transit.helio, { cls: 'helio' })}<h3>ヘリオ出生図へのアスペクト</h3>${aspectList(transit.toNatal.helio, 12)}`;
   $('p-prog').innerHTML = `<p class="sub">進行図（二次進行・1日=1年）＝ 生まれてからの年数を日数に置き換えた日（${esc(prog.progressedDate.toISOString().slice(0, 10))} UTC）の配置。内側の成長の段階。</p><h3>ジオ進行</h3>${posTable(prog.geo, { showHouse: !!hs, cls: 'geo' })}<h3>出生図へのアスペクト（進行天体 - 出生天体）</h3>${aspectList(prog.toNatal.geo, 20)}<h3>ヘリオ進行</h3>${posTable(prog.helio, { cls: 'helio' })}`;
-  $('aiText').value = formatReport({ name, chart, transit, progression: prog });
+  LAST = { name, chart, transit, prog };
+  setSections(TAB_SECTIONS['p-helio']);
 }
+let LAST = null;
+const TAB_SECTIONS = { 'p-helio': ['helio'], 'p-geo': ['geo'], 'p-drac': ['draconic'], 'p-transit': ['geo', 'transit'], 'p-prog': ['geo', 'progression'] };
+function setSections(list) { document.querySelectorAll('#secBox input').forEach((c) => { c.checked = list.includes(c.dataset.sec); }); refreshText(); }
+function refreshText() {
+  if (!LAST) return;
+  const sections = {}; document.querySelectorAll('#secBox input').forEach((c) => { sections[c.dataset.sec] = c.checked; });
+  $('aiText').value = formatReport({ name: LAST.name, chart: LAST.chart, transit: LAST.transit, progression: LAST.prog, sections });
+}
+document.querySelectorAll('#secBox input').forEach((c) => c.addEventListener('change', refreshText));
 
 // ---- タブ・コピー ----
-document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.tab').forEach((x) => x.setAttribute('aria-selected', 'false')); b.setAttribute('aria-selected', 'true'); document.querySelectorAll('.panel').forEach((p) => p.classList.remove('on')); $(b.dataset.panel).classList.add('on'); }));
+document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.tab').forEach((x) => x.setAttribute('aria-selected', 'false')); b.setAttribute('aria-selected', 'true'); document.querySelectorAll('.panel').forEach((p) => p.classList.remove('on')); $(b.dataset.panel).classList.add('on'); if (TAB_SECTIONS[b.dataset.panel]) setSections(TAB_SECTIONS[b.dataset.panel]); }));
 $('copyBtn').addEventListener('click', async () => { const t = $('aiText').value; if (!t) { $('copyStatus').textContent = '先に計算してください。'; return; } try { await navigator.clipboard.writeText(t); $('copyStatus').textContent = 'コピーしました。AIに貼り付けてください。'; } catch (e) { $('aiText').select(); $('copyStatus').textContent = '全選択しました。Ctrl+C（⌘+C）でコピーしてください。'; } });
 </script>
 </body>
