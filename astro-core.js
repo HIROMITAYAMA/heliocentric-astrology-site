@@ -164,6 +164,13 @@ export function createCore({ Astronomy, tables, sabian, stars, aspects }) {
   function retrogradeFlags(date) {
     const d2 = new Date(date.getTime() + 86400000);
     const flags = {};
+    const t1 = tableAt(jdFromDate(date)), t2 = tableAt(jdFromDate(d2));
+    if (t1 && t2 && !t1.outOfRange && !t2.outOfRange) {
+      const dn = lerpAngle(t1.node, t2.node, 1) - t1.node;
+      flags.TrueNode = ((dn + 540) % 360) - 180 < 0;
+      const g1 = geoPositions(date).Chiron, g2 = geoPositions(d2).Chiron;
+      if (g1 && g2) flags.Chiron = ((g2.lon - g1.lon + 540) % 360) - 180 < 0;
+    }
     for (const [key] of GEO_BODIES) {
       if (key === 'Sun' || key === 'Moon') continue;
       let d = geoLon(key, d2) - geoLon(key, date);

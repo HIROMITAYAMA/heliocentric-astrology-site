@@ -1,1882 +1,246 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 ヘリオセントリック占星術～人生の羅針盤～</title>
-    <meta name="description" content="太陽を中心とした占星術で3つの鍵（地球・水星・金星）と12感覚から人生の方向性を診断。サビアンシンボルと宇宙的観点でのパーソナリティ分析。">
-    <meta name="keywords" content="ヘリオセントリック占星術,サビアンシンボル,12感覚,シュタイナー,占星術,人生診断,宇宙,スピリチュアル">
-    <meta property="og:title" content="ヘリオセントリック占星術～人生の羅針盤～">
-    <meta property="og:description" content="太陽中心の占星術で人生の方向性を発見しよう">
-    <meta property="og:type" content="website">
-    <link rel="canonical" href="/">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #0f0f23 100%);
-            color: #d1d5db;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        /* 星空背景 */
-        .stars-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.04) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(168, 162, 158, 0.02) 0%, transparent 50%);
-        }
-        
-        .stars {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: #fff;
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: shootingStar 8s linear infinite;
-        }
-        
-        .stars:nth-child(odd) {
-            animation-delay: -2s;
-            animation-duration: 10s;
-        }
-        
-        .stars:nth-child(even) {
-            animation-delay: -4s;
-            animation-duration: 12s;
-        }
-        
-        .stars:nth-child(3n) {
-            animation-delay: -6s;
-            animation-duration: 9s;
-        }
-        
-        @keyframes shootingStar {
-            0% { 
-                transform: translateX(-100vw) translateY(-100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-                transform: translateX(-90vw) translateY(-90vh) scale(1);
-            }
-            90% {
-                opacity: 1;
-                transform: translateX(90vw) translateY(90vh) scale(1);
-            }
-            100% { 
-                transform: translateX(100vw) translateY(100vh) scale(0);
-                opacity: 0;
-            }
-        }
-        
-        /* キラキラエフェクト */
-        .sparkle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            animation: sparkleEffect 1s ease-out forwards;
-        }
-        
-        @keyframes sparkleEffect {
-            0% {
-                transform: scale(0) rotate(0deg);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1) rotate(180deg);
-                opacity: 0.8;
-            }
-            100% {
-                transform: scale(0) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes sparkleMove {
-            0% {
-                transform: translate(0, 0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(0);
-                opacity: 0;
-            }
-        }
-        
-        /* コンテナスタイル */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .cosmic-card {
-            background: linear-gradient(135deg, rgba(30, 30, 60, 0.85) 0%, rgba(45, 45, 80, 0.85) 100%);
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(20px);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .cosmic-card::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            background: linear-gradient(45deg, rgba(139, 92, 246, 0.2), rgba(79, 70, 229, 0.2), rgba(139, 92, 246, 0.2));
-            border-radius: 20px;
-            z-index: -1;
-        }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.2em;
-            font-weight: 700;
-            text-align: center;
-            background: linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 50%, #ddd6fe 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 1.2em;
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-        
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8em;
-            color: #a5b4fc;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .zodiac-icon {
-            font-size: 1.5em;
-            filter: drop-shadow(0 0 10px currentColor);
-        }
-        
-        /* フォーム要素 */
-        .input-group {
-            margin-bottom: 25px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #e8e8f0;
-            font-size: 1.1em;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(30, 30, 60, 0.6);
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            border-radius: 12px;
-            color: #d1d5db;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        input:focus, select:focus {
-            outline: none;
-            border-color: rgba(139, 92, 246, 0.5);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-            transform: translateY(-1px);
-        }
-        
-        /* ボタンスタイル */
-        .cosmic-button {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.8) 0%, rgba(79, 70, 229, 0.8) 100%);
-            color: #e8e8f0;
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            padding: 15px 30px;
-            font-size: 1.1em;
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            margin: 10px 10px 10px 0;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            backdrop-filter: blur(10px);
-        }
-        
-        .cosmic-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: left 0.5s;
-        }
-        
-        .cosmic-button:hover::before {
-            left: 100%;
-        }
-        
-        .cosmic-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.9) 0%, rgba(79, 70, 229, 0.9) 100%);
-        }
-        
-        /* 入力セクション */
-        .input-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        /* ローディングアニメーション */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 10, 26, 0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-        
-        .loading-content {
-            text-align: center;
-            color: #e8e8f0;
-        }
-        
-        .constellation {
-            width: 100px;
-            height: 100px;
-            position: relative;
-            margin: 0 auto 20px;
-        }
-        
-        .star {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #64ffda;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        
-        .star:nth-child(1) { top: 10px; left: 20px; animation-delay: 0s; }
-        .star:nth-child(2) { top: 30px; left: 50px; animation-delay: 0.2s; }
-        .star:nth-child(3) { top: 50px; left: 80px; animation-delay: 0.4s; }
-        .star:nth-child(4) { top: 70px; left: 30px; animation-delay: 0.6s; }
-        .star:nth-child(5) { top: 20px; left: 70px; animation-delay: 0.8s; }
-        
-        @keyframes pulse {
-            0%, 100% { 
-                opacity: 0.3; 
-                transform: scale(1);
-                box-shadow: 0 0 5px #64ffda;
-            }
-            50% { 
-                opacity: 1; 
-                transform: scale(1.5);
-                box-shadow: 0 0 20px #64ffda;
-            }
-        }
-        
-        /* 結果表示 */
-        .result-section {
-            display: none;
-        }
-        
-        .personality-card {
-            background: linear-gradient(135deg, rgba(40, 40, 80, 0.9) 0%, rgba(30, 30, 60, 0.9) 100%);
-            border: 2px solid rgba(100, 255, 218, 0.4);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .personality-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, rgba(139, 92, 246, 0.3), rgba(79, 70, 229, 0.3), rgba(139, 92, 246, 0.3));
-            border-radius: 15px;
-            z-index: -1;
-        }
-        
-        .personality-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5em;
-            color: #64ffda;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .personality-content {
-            font-size: 1.1em;
-            line-height: 1.6;
-            color: #e8e8f0;
-        }
-        
-        .trait-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .trait-item {
-            background: rgba(15, 15, 30, 0.8);
-            padding: 20px;
-            border-radius: 12px;
-            border-left: 4px solid;
-            transition: all 0.3s ease;
-        }
-        
-        .trait-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .trait-earth { border-left-color: #f59e0b; }
-        .trait-mercury { border-left-color: #ef4444; }
-        .trait-venus { border-left-color: #8b5cf6; }
-        
-        /* レスポンシブデザイン */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            h1 {
-                font-size: 2.2em;
-            }
-            
-            .cosmic-card {
-                padding: 20px;
-            }
-            
-            .input-section {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* 天体図スタイル */
-        .chart-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 30px auto;
-            padding: 20px;
-            width: 100%;
-        }
-        
-        .heliocentric-chart {
-            width: 320px;
-            height: 320px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(79, 70, 229, 0.1) 0%, rgba(139, 92, 246, 0.05) 50%, transparent 100%);
-            border: 2px solid rgba(139, 92, 246, 0.3);
-            position: relative;
-            overflow: visible;
-            margin: 0 auto;
-        }
-        
-        .sun-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 24px;
-            height: 24px;
-            background: radial-gradient(circle, #fbbf24 0%, #f59e0b 100%);
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
-            z-index: 10;
-        }
-        
-        .planet {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
-        }
-        
-        .planet-earth {
-            background: radial-gradient(circle, #22c55e 0%, #16a34a 100%);
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
-        }
-        
-        .planet-mercury {
-            background: radial-gradient(circle, #ef4444 0%, #dc2626 100%);
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
-        }
-        
-        .planet-venus {
-            background: radial-gradient(circle, #8b5cf6 0%, #7c3aed 100%);
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-        }
-        
-        .degree-markers {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-        }
-        
-        .degree-mark {
-            position: absolute;
-            width: 1px;
-            height: 10px;
-            background: rgba(139, 92, 246, 0.3);
-            transform-origin: 50% 150px;
-            top: 0;
-            left: 50%;
-        }
-        
-        .degree-mark:nth-child(6n) {
-            height: 15px;
-            background: rgba(139, 92, 246, 0.5);
-            width: 2px;
-        }
-        
-        .zodiac-labels {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 360px;
-            height: 360px;
-            border-radius: 50%;
-        }
-        
-        .zodiac-label {
-            position: absolute;
-            font-size: 16px;
-            color: #a5b4fc;
-            font-weight: 500;
-            transform: translate(-50%, -50%);
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
-        }
-
-        /* カスタムスクロールバー */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 15, 30, 0.8);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.8) 0%, rgba(79, 70, 229, 0.8) 100%);
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, rgba(79, 70, 229, 0.8) 0%, rgba(139, 92, 246, 0.8) 100%);
-        }
-    </style>
-    <script type="module">
-    try {
-        const Astronomy = await import('https://esm.sh/astronomy-engine');
-        if (Astronomy) {
-            window.Astronomy = Astronomy;
-            console.log('✅ Astronomy Engine (ESM via esm.sh) loaded');
-        }
-    } catch (e) {
-        console.warn('Astronomy Engine (ESM) load failed:', e);
-    }
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヘリオセントリック占星術～人生の羅針盤～ 星読みデータ</title>
+<meta name="description" content="生年月日・出生時間・出生地から、ヘリオセントリック（魂の資質）・ジオセントリック（今の自分）・ドラコニック（過去生）の出生図と、経過図・進行図を計算。12感覚・サビアン・恒星つきで、そのままAIに貼れる星読みデータを出します。">
+<meta name="keywords" content="ヘリオセントリック占星術,地球星座,12感覚,サビアンシンボル,恒星占星術,ドラコニック,トランジット,プログレス,ホロスコープ計算">
+<meta property="og:title" content="ヘリオセントリック占星術～人生の羅針盤～ 星読みデータ">
+<meta property="og:description" content="ヘリオ・ジオ・ドラコニックの出生図と経過図・進行図を無料で計算。AIに貼れる星読みデータ。">
+<meta property="og:type" content="website">
+<link rel="canonical" href="/">
+<style>
+:root{
+  --bg0:#0b0b1c; --bg1:#171636; --panel:rgba(255,255,255,.055); --line:rgba(167,139,250,.35);
+  --ink:#ece9f7; --muted:#b3add0; --accent:#a78bfa; --gold:#f5c66b; --ok:#7ee0a8; --warn:#ffb36b;
+  --helio:#f5c66b; --geo:#8fd3ff; --drac:#ff9ecf;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg0),var(--bg1) 60%,#2a1d5c);min-height:100vh;line-height:1.7;padding:20px 16px 64px}
+main{max-width:920px;margin:0 auto}
+h1{font-size:1.5rem;margin:0 0 .25rem;letter-spacing:.02em}
+h2{font-size:1.15rem;margin:0 0 .75rem;color:var(--accent)}
+h3{font-size:1rem;margin:1.2rem 0 .4rem;color:var(--gold)}
+p{margin:.4rem 0}
+.sub{color:var(--muted);font-size:.95rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin:16px 0;backdrop-filter:blur(4px)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:.25rem}
+input,select{width:100%;padding:.6rem .7rem;border-radius:9px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--ink);font-size:1rem}
+input:focus,select:focus,button:focus{outline:2px solid var(--gold);outline-offset:2px}
+.check{display:flex;align-items:center;gap:.5rem;font-size:.95rem;color:var(--ink)}
+.check input{width:auto}
+button{cursor:pointer;border:none;border-radius:10px;padding:.7rem 1.1rem;font-size:1rem;font-weight:600}
+.primary{background:linear-gradient(135deg,#8b5cf6,#4f46e5);color:#fff;width:100%;margin-top:12px}
+.ghost{background:rgba(255,255,255,.08);color:var(--ink);border:1px solid var(--line)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
+.tab{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--line);padding:.45rem .8rem;border-radius:999px;font-size:.92rem}
+.tab[aria-selected="true"]{background:var(--accent);color:#120f2a;border-color:var(--accent)}
+.panel{display:none}.panel.on{display:block}
+table{width:100%;border-collapse:collapse;font-size:.95rem;font-variant-numeric:tabular-nums}
+th,td{padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:500;font-size:.85rem}
+.tag{display:inline-block;font-size:.78rem;padding:.05rem .45rem;border-radius:999px;border:1px solid currentColor;margin-left:.3rem}
+.helio{color:var(--helio)}.geo{color:var(--geo)}.drac{color:var(--drac)}
+.list{margin:.3rem 0 0;padding-left:1.1rem}
+.list li{margin:.15rem 0}
+textarea{width:100%;min-height:260px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.4);color:var(--ink);font-family:ui-monospace,Menlo,monospace;font-size:.85rem;padding:.7rem;line-height:1.5}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+.note{font-size:.85rem;color:var(--muted)}
+.warn{color:var(--warn)}
+.wheel{max-width:360px;margin:0 auto;display:block}
+.status{font-size:.9rem;color:var(--muted);min-height:1.4em}
+.links a{color:var(--gold)}
+footer{margin-top:28px;font-size:.82rem;color:var(--muted)}
+@media (max-width:480px){body{padding:14px 12px 48px}.card{padding:14px}}
+</style>
 </head>
 <body>
-    <!-- 星空背景 -->
-    <div class="stars-background" id="starsBackground"></div>
-    
-    <!-- ローディングオーバーレイ -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-content">
-            <div class="constellation">
-                <div class="star"></div>
-                <div class="star"></div>
-                <div class="star"></div>
-                <div class="star"></div>
-                <div class="star"></div>
-            </div>
-            <div class="loading-text">宇宙の叡智を読み解き中...</div>
-            <div class="loading-subtitle">あなたの本質を分析しています</div>
+<main>
+  <h1>🌟 ヘリオセントリック占星術～人生の羅針盤～</h1>
+  <p class="sub">生年月日（と、分かれば出生時間・出生地）から、<span class="helio">ヘリオ＝魂の本来の資質</span>、<span class="geo">ジオ＝肉体を持つ今の自分</span>、<span class="drac">ドラコニック＝過去生で培ったもの</span>の3つの出生図と、経過図・進行図を計算します。結果はそのままAIに貼れる形で出ます。</p>
+
+  <section class="card" aria-labelledby="in-h">
+    <h2 id="in-h">入力</h2>
+    <div class="grid">
+      <div><label for="userName">お名前（任意・結果に表示）</label><input id="userName" type="text" placeholder="例: ひろみ" autocomplete="off"></div>
+      <div><label for="birthDate">生年月日（必須）</label><input id="birthDate" type="date" required></div>
+      <div><label for="birthTime">出生時間（24時間制）</label><input id="birthTime" type="time" value="12:00"></div>
+      <div style="align-self:end"><label class="check"><input id="noTime" type="checkbox"> 出生時間がわからない（正午で計算・ハウスは出しません）</label></div>
+      <div><label for="pref">出生地（都道府県・県庁所在地の座標）</label><select id="pref"></select></div>
+      <div style="align-self:end"><label class="check"><input id="manualGeo" type="checkbox"> 海外・緯度経度を直接入れる</label></div>
+      <div id="geoFields" style="display:none;grid-column:1/-1">
+        <div class="grid">
+          <div><label for="lat">緯度（北+ 南−）</label><input id="lat" type="number" step="0.0001" placeholder="33.24"></div>
+          <div><label for="lon">経度（東+ 西−）</label><input id="lon" type="number" step="0.0001" placeholder="131.61"></div>
+          <div><label for="tz">時差（UTCから・日本は +9）</label><input id="tz" type="number" step="0.5" value="9"></div>
         </div>
+      </div>
+      <div><label for="targetDate">経過図・進行図を見たい日</label><input id="targetDate" type="date"></div>
     </div>
-    
-    <div class="container">
-        <!-- 入力セクション -->
-        <div class="cosmic-card" id="inputSection">
-            <h1>🌟 ヘリオセントリック占星術～人生の羅針盤～</h1>
-            <p class="subtitle">太陽視点から読み解くあなたの人生の「３つの鍵」と<br>「本当の自分を目覚めさせるスイッチ」を紐解きます。</p>
-            
-            <div style="background: rgba(139, 92, 246, 0.1); padding: 20px; border-radius: 15px; margin: 20px 0; border: 1px solid rgba(139, 92, 246, 0.3);">
-                <div style="text-align: center; margin-bottom: 15px;">
-                    <h3 style="color: #a5b4fc; font-size: 1.2em; margin: 0;">✨ ３つの鍵とは ✨</h3>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: center;">
-                    <div style="background: rgba(245, 158, 11, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #f59e0b;">
-                        <div style="color: #f59e0b; font-weight: bold; margin-bottom: 5px;">🌍 地球</div>
-                        <div style="color: #e8e8f0; font-size: 0.9em;">魂の本質・現実創造力</div>
-                    </div>
-                    <div style="background: rgba(239, 68, 68, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #ef4444;">
-                        <div style="color: #ef4444; font-weight: bold; margin-bottom: 5px;">☿ 水星</div>
-                        <div style="color: #e8e8f0; font-size: 0.9em;">学習・探索・思考パターン</div>
-                    </div>
-                    <div style="background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #8b5cf6;">
-                        <div style="color: #8b5cf6; font-weight: bold; margin-bottom: 5px;">♀ 金星</div>
-                        <div style="color: #e8e8f0; font-size: 0.9em;">価値観・喜び・美意識</div>
-                    </div>
-                </div>
-                <div style="text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(139, 92, 246, 0.2);">
-                    <div style="color: #a5b4fc; font-weight: bold; margin-bottom: 5px;">🎯 目覚めのスイッチ</div>
-                    <div style="color: #e8e8f0; font-size: 0.9em;">12感覚を通じてあなたの本質を目覚めさせる</div>
-                </div>
-            </div>
-            
-            <div class="section-title">
-                <span class="zodiac-icon">📅</span>
-                日付・時刻を入力してください
-            </div>
-            
-            <div class="input-section">
-                <div class="input-group">
-                    <label for="birthDate">生年月日:</label>
-                    <input type="date" id="birthDate" required>
-                </div>
-                <div class="input-group">
-                    <label for="birthTime">時刻:</label>
-                    <input type="time" id="birthTime" value="12:00">
-                </div>
-                <div class="input-group">
-                    <label for="userName">名前 (任意):</label>
-                    <input type="text" id="userName" placeholder="結果に表示されます">
-                </div>
-            </div>
-            
-            <button class="cosmic-button" onclick="startCalculation()">
-                <span class="zodiac-icon">🌟</span> 宇宙の叡智を解読する
-            </button>
-        </div>
-        
-        <!-- 結果表示セクション -->
-        <div id="resultSection" class="result-section">
-            <div class="cosmic-card">
-                <div class="section-title">
-                    <span class="zodiac-icon">✨</span>
-                    <span id="resultTitle">ヘリオセントリック天体位置</span>
-                </div>
-                
-                <!-- 天体図カード -->
-                <div class="personality-card" id="chartCard">
-                    <div class="personality-title">
-                        <span class="zodiac-icon">🌌</span>
-                        ヘリオセントリック天体図
-                    </div>
-                    <div class="chart-container">
-                        <div class="heliocentric-chart" id="helioChart">
-                            <!-- JavaScriptで動的に生成 -->
-                        </div>
-                    </div>
-                </div>
+    <p id="dstNote" class="note warn" style="display:none">1948〜1951年の5月〜9月は日本に夏時間がありました。母子手帳などの記録の時刻から1時間引いて入力してください。</p>
+    <button id="calc" class="primary" type="button">星読みデータを計算する</button>
+    <p id="status" class="status" aria-live="polite"></p>
+  </section>
 
-                <!-- 概要カード -->
-                <div class="personality-card" id="overviewCard">
-                    <div class="personality-title">
-                        <span class="zodiac-icon">🌟</span>
-                        天体位置・恒星影響
-                    </div>
-                    <div class="personality-content" id="overviewContent">
-                        <!-- JavaScriptで動的に生成 -->
-                    </div>
-                </div>
-                
-                <!-- ３つの鍵説明 -->
-                <div style="background: rgba(139, 92, 246, 0.08); padding: 20px; border-radius: 15px; margin: 30px 0; border: 1px solid rgba(139, 92, 246, 0.2);">
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <h3 style="color: #a5b4fc; font-size: 1.3em; margin: 0;">✨ あなたの３つの鍵 ✨</h3>
-                        <p style="color: #94a3b8; font-size: 0.9em; margin: 5px 0 0 0;">地球・水星・金星が示すあなたの本質と目覚めのスイッチ（12感覚）</p>
-                    </div>
-                </div>
-
-                <!-- 詳細特性グリッド -->
-                <div class="trait-grid" id="traitGrid">
-                    <!-- JavaScriptで動的に生成 -->
-                </div>
-                
-                <!-- アクション -->
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="cosmic-button" onclick="printResult()" style="width: auto; margin-right: 15px;">
-                        <span class="zodiac-icon">🖨️</span> 結果を印刷
-                    </button>
-                    <button class="cosmic-button" onclick="restartCalculation()" style="width: auto;">
-                        <span class="zodiac-icon">🔄</span> 新しい計算
-                    </button>
-                </div>
-            </div>
-            
-            <!-- AI診断プロンプトカード -->
-            <div class="cosmic-card" id="aiPromptCard" style="display: none;">
-                <div class="section-title">
-                    <span class="zodiac-icon">🤖</span>
-                    AI診断
-                </div>
-                <p class="subtitle" style="margin-top: -10px;">
-                    結果とプロンプトをコピーして専用のGPTSアプリにペーストすると<br>よりくわしい診断をお楽しみいただけます
-                </p>
-                
-                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px solid rgba(100,255,218,0.3);">
-                    <div style="font-size: 12px; color: #87ceeb; margin-bottom: 8px;">🔗 専用GPTS URL:</div>
-                    <div style="font-family: monospace; font-size: 11px; color: #e8e8f0; word-break: break-all; line-height: 1.4;">
-                        <a href="https://chatgpt.com/g/g-68faf40e50448191be95c373744e8ec6-aixyi-shi-13-heriosentoritukuzhan-xing-shu-3tunojian-toluo-zhen-pan" target="_blank" style="color: #64ffda; text-decoration: none;">
-                            https://chatgpt.com/g/g-68faf40e50448191be95c373744e8ec6-aixyi-shi-13-heriosentoritukuzhan-xing-shu-3tunojian-toluo-zhen-pan
-                        </a>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin: 20px 0;">
-                    <button class="cosmic-button" style="width: auto; margin-right: 10px; background: linear-gradient(135deg, #ff6b6b, #4ecdc4);" onclick="openGPTS()">
-                        <span class="zodiac-icon">🚀</span> 専用GPTSで診断
-                    </button>
-                    <button class="cosmic-button" style="width:auto;" onclick="copyAIPrompt()">
-                        <span class="zodiac-icon">📋</span> プロンプトをコピー
-                    </button>
-                </div>
-                
-                <textarea id="aiPrompt" style="width:100%; min-height: 140px; margin-top:10px; padding:15px; border-radius:8px; background:rgba(15,15,30,0.8); border:2px solid rgba(100,255,218,0.3); color:#e8e8f0; font-family: monospace; resize:vertical;"></textarea>
-                
-                <div id="diagnosisResult" style="display: none; margin-top: 20px;">
-                    <div class="section-title">
-                        <span class="zodiac-icon">🔮</span>
-                        診断結果
-                    </div>
-                    <div id="diagnosisContent" style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; margin-top: 15px; border: 2px solid rgba(255, 215, 0, 0.3); white-space: pre-wrap; line-height: 1.6; font-size: 14px; max-height: 400px; overflow-y: auto;"></div>
-                    <div style="text-align: center; margin-top: 15px;">
-                        <button class="cosmic-button" style="width: auto;" onclick="hideDiagnosis()">
-                            <span class="zodiac-icon">✨</span> 結果を閉じる
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <section id="result" class="card" style="display:none" aria-labelledby="res-h">
+    <h2 id="res-h">結果</h2>
+    <p id="resMeta" class="note"></p>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-panel="p-helio" aria-selected="true" type="button">ヘリオ</button>
+      <button class="tab" role="tab" data-panel="p-geo" aria-selected="false" type="button">ジオ</button>
+      <button class="tab" role="tab" data-panel="p-drac" aria-selected="false" type="button">ドラコニック</button>
+      <button class="tab" role="tab" data-panel="p-transit" aria-selected="false" type="button">経過図</button>
+      <button class="tab" role="tab" data-panel="p-prog" aria-selected="false" type="button">進行図</button>
+      <button class="tab" role="tab" data-panel="p-text" aria-selected="false" type="button">AIに貼る</button>
     </div>
+    <div id="p-helio" class="panel on" role="tabpanel"></div>
+    <div id="p-geo" class="panel" role="tabpanel"></div>
+    <div id="p-drac" class="panel" role="tabpanel"></div>
+    <div id="p-transit" class="panel" role="tabpanel"></div>
+    <div id="p-prog" class="panel" role="tabpanel"></div>
+    <div id="p-text" class="panel" role="tabpanel">
+      <p class="note">下のテキストを全部コピーして、星読みAIに貼り付けてください。質問はそのあとに続けて書けます（例:「今の仕事はこのタイミングに合っている？」）。</p>
+      <textarea id="aiText" readonly aria-label="AIに貼る星読みデータ"></textarea>
+      <div class="row">
+        <button id="copyBtn" class="ghost" type="button">テキストをコピー</button>
+        <span id="copyStatus" class="note"></span>
+      </div>
+      <div class="row links">
+        <a id="gptLink" href="https://chatgpt.com/g/g-68faf40e50448191be95c373744e8ec6-aixyi-shi-13-heriosentoritukuzhan-xing-shu-3tunojian-toluo-zhen-pan" target="_blank" rel="noopener">▶ 星読みAI（ChatGPT）で読み解く</a>
+        <span class="note">※ 新しいプラグイン版の案内は準備ができ次第ここに載せます</span>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        // 動く星空背景の生成
-        function createStars() {
-            const starsContainer = document.getElementById('starsBackground');
-            if (!starsContainer) return;
-            const numberOfStars = 100;
-            
-            for (let i = 0; i < numberOfStars; i++) {
-                const star = document.createElement('div');
-                star.className = 'stars';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                starsContainer.appendChild(star);
-            }
-        }
-        
-        // ローディング表示
-        function showLoading() {
-            document.getElementById('loadingOverlay').style.display = 'flex';
-        }
-        
-        function hideLoading() {
-            document.getElementById('loadingOverlay').style.display = 'none';
-        }
-        
-        // 星座名リスト
-        const zodiacSigns = [
-            '♈ 牡羊座', '♉ 牡牛座', '♊ 双子座', '♋ 蟹座', '♌ 獅子座', '♍ 乙女座',
-            '♎ 天秤座', '♏ 蠍座', '♐ 射手座', '♑ 山羊座', '♒ 水瓶座', '♓ 魚座'
-        ];
-        
-        const zodiacSignsPlain = [
-            '牡羊座', '牡牛座', '双子座', '蟹座', '獅子座', '乙女座',
-            '天秤座', '蠍座', '射手座', '山羊座', '水瓶座', '魚座'
-        ];
-        
-        // 12感覚対応
-        const senseMappings = {
-            '牡羊座': '自我意識',
-            '牡牛座': '思考感覚',
-            '双子座': '言語感覚',
-            '蟹座': '聴覚',
-            '獅子座': '熱感覚',
-            '乙女座': '視覚',
-            '天秤座': '触覚',
-            '蠍座': '生命感覚',
-            '射手座': '運動感覚',
-            '山羊座': '均衡感覚',
-            '水瓶座': '嗅覚',
-            '魚座': '味覚'
-        };
+  <footer>
+    <p>計算方法: 天体位置は astronomy-engine、キロンと真ノード（ドラゴンヘッド）は Swiss Ephemeris から作成した表を使用。ハウスはプラシーダス。度数は「10進 / 度分」を併記。サビアン度は整数部分+1。恒星は占いラボの恒星表（±1.5度）。astro.com の出生図と照合して全天体が一致することを確認しています（2026-11-03）。</p>
+    <p>出生地は県庁所在地の座標で計算しています。同じ県内でも場所によりASC・ハウスが1度前後動くことがあります。正確に出したい方は「緯度経度を直接入れる」をお使いください。</p>
+  </footer>
+</main>
 
-        // 12感覚の意味
-        const senseMeanings = {
-            '自我意識': '自分自身を認識し、自分らしさを表現する感覚。アイデンティティの確立と自己実現への衝動。',
-            '思考感覚': '物事の本質を深く考え、真理を追究する感覚。哲学的思考と洞察力を育む。',
-            '言語感覚': 'コミュニケーションと表現の感覚。言葉や文字を通じて思考を伝え、理解を深める能力。',
-            '聴覚': '音や言葉だけでなく、相手の心の声や空気感を聞き取る感覚。共感力と理解力の源泉。',
-            '熱感覚': '情熱と意欲を感じ取る感覚。創造的エネルギーと集中力を生み出し、活力をもたらす。',
-            '視覚': '物理的な視覚を超えた洞察力。ビジョンを受け取り、未来を見通す直感的な感覚。',
-            '触覚': '境界線や関係性を感じ取る感覚。バランス感覚と調和を生み出し、適切な距離感を保つ。',
-            '生命感覚': '生きていることの実感と生命力を感じる感覚。変容と再生のエネルギーを司る。',
-            '運動感覚': '体験を通じて学び、行動で表現する感覚。実践的な知恵と身体知を育む。',
-            '均衡感覚': '安定と調和を保つ感覚。自分にとって最適な位置や状態を見つけ出す能力。',
-            '嗅覚': '時代の空気や未来の兆しを察知する感覚。直感的に変化や可能性を感じ取る能力。',
-            '味覚': '物事の本質を味わい、深く理解する感覚。境界を越えて一体化し、真の理解に至る。'
-        };
-        
-        // 主要恒星データ（黄道上の位置）
-        const fixedStars = [
-            { name: 'アルデバラン', longitude: 69.47, magnitude: 0.85, color: '#FF6347' },
-            { name: 'レグルス', longitude: 149.90, magnitude: 1.35, color: '#4169E1' },
-            { name: 'スピカ', longitude: 203.83, magnitude: 0.97, color: '#00CED1' },
-            { name: 'アンタレス', longitude: 249.24, magnitude: 0.6, color: '#DC143C' },
-            { name: 'フォーマルハウト', longitude: 3.52, magnitude: 1.16, color: '#FFD700' },
-            { name: 'シリウス', longitude: 104.24, magnitude: -1.46, color: '#FFFFFF' },
-            { name: 'カペラ', longitude: 81.87, magnitude: 0.08, color: '#FFF8DC' },
-            { name: 'ベガ', longitude: 15.20, magnitude: 0.03, color: '#E6E6FA' },
-            { name: 'アルタイル', longitude: 1.85, magnitude: 0.77, color: '#F0F8FF' },
-            { name: 'ベテルギウス', longitude: 88.95, magnitude: 0.42, color: '#FF4500' }
-        ];
+<script type="module">
+import { createCore, formatReport, fmtDeg, fmtPos, SIGNS } from './astro-core.js';
 
-        // サビアンシンボル データ
-        const sabianSymbols = {
-            // 牡羊座 (1-30度)
-            1: "女が水から上がり、アザラシも上がり彼女を抱く",
-            2: "グループを楽しませているコメディアン",
-            3: "彼の祖国の形をした男の横顔",
-            4: "隔離された歩道を歩く二人の恋人",
-            5: "羽のある三角",
-            6: "一辺が明るく照らされた四角",
-            7: "二つの領域で同時に自己表現をしている男",
-            8: "風になびくリボンのついた大きな帽子、東に向いている",
-            9: "水晶を凝視している水晶占い師",
-            10: "古い象の上に立っている男",
-            11: "国の支配者",
-            12: "野生のガチョウに向かって手を伸ばしている男",
-            13: "爆弾の不発弾",
-            14: "男と女のそばにいる蛇",
-            15: "毛布を編んでいるインディアン",
-            16: "妖精たちに囲まれている自然の霊",
-            17: "二人の独身者が決闘している",
-            18: "からの十字架",
-            19: "魔法の絨毯",
-            20: "若い少女が鳥たちに餌をやっている",
-            21: "リングに上がる前にパンチングバッグを打つボクサー",
-            22: "欲望の庭へ続く門",
-            23: "重く荷を積んだらくだが砂漠を通り過ぎて行く",
-            24: "風が吹く丘の上に開かれた窓のあるカラフルなテント",
-            25: "二重の約束",
-            26: "持ちきれないほどの贈り物を所有している男",
-            27: "想像の中で復活された失われた機会",
-            28: "落胆させられた大きな聴衆",
-            29: "天球の合唱隊が歌っている",
-            30: "アヒルの池とそれが育む子供たち",
-            
-            // 牡牛座 (31-60度)
-            31: "澄み切った山の小川",
-            32: "電気的な嵐",
-            33: "宝石店で働く宝石商",
-            34: "虹のたもとの黄金の壷",
-            35: "白い鳩、メッセージを持っている",
-            36: "建設現場で働く男たち",
-            37: "女性と二人の男性が海辺で難破した船から",
-            38: "中国の洗濯屋",
-            39: "クリスマスツリーを飾っている二人の天使",
-            40: "岩だらけの海岸で海藻を集めるインディアンの女",
-            41: "花咲く桃の木にとまっているツグミ",
-            42: "電線にとまっている青い鳥",
-            43: "宝石を手にしている男",
-            44: "古い教師が生徒たちに伝統的な知恵を教えている",
-            45: "頭に草をつけた男",
-            46: "神殿の階段で歌を歌っているオペラ歌手",
-            47: "記号式化学の実験をしている女",
-            48: "パレードをしている女性参政権論者",
-            49: "新しい大陸の地図を作成している男",
-            50: "きれいに手入れされた芝生",
-            51: "指で人の運命を読んでいる手相家",
-            52: "恋人たちが公園のベンチで座っている",
-            53: "宝石商が宝石の純度を調べている",
-            54: "馬にまたがったインディアン",
-            55: "大きなダイヤモンドの指輪をした手",
-            56: "コットンフィールドで働く黒人たち",
-            57: "インディアンの戦士が大胆に馬にまたがっている",
-            58: "桃の木の下で休んでいる女",
-            59: "大きな公園",
-            60: "孔雀が東の庭で堂々と歩き回っている",
-            
-            // 双子座 (61-90度)
-            61: "静かな水の上にガラスの底のボート",
-            62: "こっそりと靴下に物をつめているサンタクロース",
-            63: "テュイルリー庭園",
-            64: "ヒイラギとヤドリギ",
-            65: "雑誌を読んでいる男",
-            66: "石油を掘削している男",
-            67: "井戸",
-            68: "産業労働者のストライキ",
-            69: "矢で射られたキューピット",
-            70: "落下する飛行機",
-            71: "新しく開かれた大陸への道",
-            72: "生意気に自己主張する少女トプシー",
-            73: "有名な音楽家",
-            74: "テレパシーによる会話",
-            75: "二人のオランダの子供たちがおしゃべりをしている",
-            76: "婦人たちの午後のお茶会",
-            77: "地下鉄の駅",
-            78: "中国系アメリカ人の男性",
-            79: "大きな熊にまたがっている女",
-            80: "カフェテリア",
-            81: "密林",
-            82: "踊っている子供たち",
-            83: "三つのマスト",
-            84: "アイスクリームソーダを飲んでいる子供たち",
-            85: "庭師が大きな木を手入れしている",
-            86: "森の中で読書している女",
-            87: "ウェルズの古い井戸",
-            88: "労働者のデモ",
-            89: "現代のガブリエル",
-            90: "ローラースケート",
-            
-            // 蟹座 (91-120度)
-            91: "船に乗り込む男",
-            92: "広くて平らな場所に男がつり下がっている",
-            93: "毛皮に包まれた男",
-            94: "ネズミと議論するネコ",
-            95: "自動車事故",
-            96: "ファルコン(ハヤブサ)と野鴨",
-            97: "月明かりの夜の二人の妖精",
-            98: "ウサギたちが人間の服を着て行進している",
-            99: "小さなお裸の少女が魚を捕まえようとしている",
-            100: "ゲームを作っている大きなダイヤモンド",
-            101: "馬術競技",
-            102: "ベランダの南京虫",
-            103: "胃の上で手を組んでいる男",
-            104: "北東の角にある小さな岩の島",
-            105: "食べ物でいっぱいの男とお皿",
-            106: "雌鶏とひよこたち",
-            107: "2人のおとぎ話の人物が月明かりの下でダンスしている",
-            108: "ラマと横になっている女",
-            109: "牧師が結婚式を執り行っている",
-            110: "自然のあらゆる力が一人の男の中に集約されている",
-            111: "アメリカ先住民の酋長が部族を名誉へと導いている",
-            112: "夕食のために野菜を給仕している女",
-            113: "手で岩をつかんでいる男",
-            114: "双子の星座",
-            115: "ある男が自分の情熱に溺れている",
-            116: "手紙を持った男",
-            117: "占星術師が砂漠で星座を読んでいる",
-            118: "インディアンの女性が首長に頼み事をしている",
-            119: "司祭がろうそくを灯している",
-            120: "ローマ教皇",
-            
-            // 獅子座 (121-150度)
-            121: "血だらけのマットの上のボクサー",
-            122: "パーティーのゲストを楽しませている男",
-            123: "西部劇の女主人公",
-            124: "正装した男",
-            125: "ロックの岩山",
-            126: "時代錯誤な女",
-            127: "星座",
-            128: "共産主義活動家",
-            129: "ガラスが割れた窓",
-            130: "早朝の露にぬれた森",
-            131: "ブランコに乗っている子供たち",
-            132: "夕食のテーブルについている大きな家族",
-            133: "老いたライオン使い",
-            134: "人間の魂の表現",
-            135: "山車",
-            136: "嵐の最中の船",
-            137: "鶏とひよこたち",
-            138: "化学実験",
-            139: "ハウスボート・パーティー",
-            140: "ズニー・インディアン",
-            141: "メリーゴーランド",
-            142: "夕方のお茶の時間",
-            143: "ヨットクラブ",
-            144: "人体実験",
-            145: "ロックゲート",
-            146: "虹",
-            147: "日光浴をしている女",
-            148: "赤十字の看護師",
-            149: "インディアンのテント",
-            150: "大きくて白い十字架",
-            
-            // 乙女座 (151-180度)
-            151: "男の頭",
-            152: "大きな白い十字架が立つ丘",
-            153: "二匹のエンジェル・フィッシュ",
-            154: "白い子供が黒い子供と遊んでいる",
-            155: "妖精の王",
-            156: "メリーゴーランド",
-            157: "ハーレム",
-            158: "最初のダンスのレッスン",
-            159: "10時を指す時計の絵",
-            160: "影を投げかけているもの",
-            161: "母親が2人の子供を深い階段で案内している",
-            162: "結婚のベールを身につけた花嫁",
-            163: "男性の手の中のへび",
-            164: "家族の洗濯物",
-            165: "装飾されたクリスマスツリー",
-            166: "子供たちに手を振っている男",
-            167: "火山の噴火",
-            168: "ウイジャ盤",
-            169: "水泳競技者",
-            170: "自動車キャラバン",
-            171: "少女のバスケットボールチーム",
-            172: "王と王妃",
-            173: "ライオンの調教師",
-            174: "双生児の子供たちが遊んでいる",
-            175: "旗手",
-            176: "男の子のための自転車",
-            177: "動物や鳥や人間の形をした雲",
-            178: "バレエダンサー",
-            179: "サーカス",
-            180: "5つ星の将軍",
-            
-            // 天秤座 (181-210度)
-            181: "突き通す針によって完璧にされた蝶",
-            182: "灯りをつける男",
-            183: "夜明けの丘の上で日の出を見ている人",
-            184: "キャンプファイヤーを囲むグループ",
-            185: "心の内面の知識を教えている男",
-            186: "男が自分の理想の実現可能性を示している",
-            187: "ヒヨコに餌をやっている女",
-            188: "燃えているロウソク",
-            189: "アートギャラリー",
-            190: "カヌーを漕いでいる3人の男",
-            191: "鉱山から出てくる鉱夫",
-            192: "しゃぼん玉を吹いている子供たち",
-            193: "新しい月の日の夕べに家路につく労働者たち",
-            194: "正午の昼寝",
-            195: "ジグザグの道が丘の上にある家に続いている",
-            196: "男が自分の国の歴史を記録している",
-            197: "航海者",
-            198: "逮捕された2人の男",
-            199: "隠者",
-            200: "ラビが研究している",
-            201: "海辺のカモメ",
-            202: "通り過ぎて行く群集",
-            203: "チャンス",
-            204: "男が女に彼の保護を申し出ている",
-            205: "情報局",
-            206: "鷹から変化したハト",
-            207: "飛行機",
-            208: "夕日を背にした十字架",
-            209: "三人のマスター",
-            210: "アヒルの池とそれが育む子供たち",
-            
-            // 蠍座 (211-240度)
-            211: "光景を楽しんでいる群集",
-            212: "割れたビンとこぼれた香水",
-            213: "家を建てている棟梁",
-            214: "若い恋人たちが木漏れ日の小径を歩いている",
-            215: "大きなテントでの大衆の集会",
-            216: "子どもたちの遊び場にあるメリーゴーランド",
-            217: "深海ダイバー",
-            218: "月に照らされた小径上の女",
-            219: "歯科の仕事",
-            220: "夕食のテーブルについている大きな家族",
-            221: "溺れている男を救助している女",
-            222: "狩りから帰ってきたハンター",
-            223: "妖精とダンスをしている女",
-            224: "X線",
-            225: "蝶々の左翼についている第三の目",
-            226: "少女のバスケットボールチーム",
-            227: "インディアンのテント",
-            228: "静かな水に映る満月",
-            229: "インディアンの女酋長が戦士たちに語りかけている",
-            230: "オウムが人間の言葉をしゃべっている",
-            231: "救いを求める男",
-            232: "大使館の舞踏会",
-            233: "うさぎ変身",
-            234: "観光バス",
-            235: "青年将校の肖像",
-            236: "軍の勲章",
-            237: "自分の子供たちと遊んでいる女",
-            238: "休暇中の王様",
-            239: "インディアンの女が自分の恋人が戦いから帰ってくるのを待っている",
-            240: "移民たち",
-            
-            // 射手座 (241-270度)  
-            241: "退役軍人たちの再会",
-            242: "白いキャップをかぶった男",
-            243: "階段でチェスをしている2人の男",
-            244: "小さな子供が学習している",
-            245: "木にとまっているフクロウ",
-            246: "クリケットゲーム",
-            247: "キューピッド",
-            248: "岩やその破片が海岸で休んでいる",
-            249: "母親が階段で子供を導いている",
-            250: "金髪の少女が幸せそうに笑っている",
-            251: "砂丘を駆け抜ける野生の馬",
-            252: "中国人の洗濯屋",
-            253: "未亡人の過去に光が差している",
-            254: "ピラミッドとスフィンクス",
-            255: "家のドアにあるクリスマスリース",
-            256: "海辺のたき火の近くにいるグループ",
-            257: "復活祭の日の出の礼拝",
-            258: "子供たちと犬",
-            259: "ペリカン",
-            260: "移民が新しい国に入国している",
-            261: "少年と少女がメイポールの周りでダンスしている",
-            262: "裸の少女が熊の皮にくるまっている",
-            263: "移民",
-            264: "青い鳥が家の戸口にとまっている",
-            265: "脂肪の多い家庭の七面鳥",
-            266: "旗手",
-            267: "彫刻家",
-            268: "美しい流れ",
-            269: "サーカスの綱渡り芸人",
-            270: "教皇",
-            
-            // 山羊座 (271-300度)
-            271: "認識を求めるインディアンの酋長",
-            272: "戦争での勝利を祝っている3人の人物",
-            273: "人間の魂の本性",
-            274: "大きなカヌー",
-            275: "火の崇拝者",
-            276: "東洋の敷物を扱う商人",
-            277: "ベールに包まれた預言者",
-            278: "鳥の群れ",
-            279: "ハープを奏でる天使",
-            280: "商業的価値を持つ骨董品店",
-            281: "キジの群れ",
-            282: "学生たちに講義をしている教授",
-            283: "兵士に勲章を授けている将軍",
-            284: "大きな買い物袋を提げた女",
-            285: "病院の子供病棟にいる男",
-            286: "管理者",
-            287: "山の巡礼者",
-            288: "リレーレース",
-            289: "5歳くらいの小さな女の子が大きなバッグを運んでいる",
-            290: "秘密のビジネス会議",
-            291: "密猟者",
-            292: "考古学者",
-            293: "2つの賞を獲得した男",
-            294: "修道院",
-            295: "東洋の敷物商",
-            296: "教会のオルガン",
-            297: "山の巡礼者",
-            298: "大きなショッピングバッグを持つ女",
-            299: "インディアンのテント",
-            300: "教皇",
-            
-            // 水瓶座 (301-330度)
-            301: "古いレンガでできた使命",
-            302: "予期されていなかった雷雨",
-            303: "逃亡者",
-            304: "ヒンドゥー教のヒーラー",
-            305: "先祖の委員会",
-            306: "ワフル売りの男",
-            307: "子供は6つの白鳥に変身した",
-            308: "美しく着飾った女",
-            309: "飛行機",
-            310: "人気を失った男",
-            311: "自分の影と踊っている男",
-            312: "上へ向かう階段の上に立っている男",
-            313: "樹に変身したニンフ",
-            314: "トンネルを掘る男",
-            315: "大きなテントでの復活祭の礼拝",
-            316: "机に向かっている男",
-            317: "ワシになった男",
-            318: "マスクを剥がされた男",
-            319: "森の妖精",
-            320: "大きな白い鳩、メッセージを運んでいる",
-            321: "絶望に打ちのめされた女",
-            322: "子ども時代に遊んだ地面で遊ぶ子供",
-            323: "大きな熊の前で座る男",
-            324: "右肩に白い花をつけた男",
-            325: "蝶の左の羽の上の第三の目",
-            326: "香炉を持つ男",
-            327: "古代の壷",
-            328: "色とりどりの花が咲く木",
-            329: "蝶",
-            330: "月明かりの野原",
-            
-            // 魚座 (331-360度)
-            331: "公共の市場",
-            332: "リスが冬に備えて木の実を隠している",
-            333: "化石化された森",
-            334: "狭い水路",
-            335: "東から昇る三日月",
-            336: "パレードをしている将校たち",
-            337: "岩に映された十字",
-            338: "満月の夜に咲く花",
-            339: "騎手",
-            340: "雲の切れ間から差し込む光の束",
-            341: "男が時計の振り子の前にいる",
-            342: "狭い水路を往く船",
-            343: "象",
-            344: "妖精とダンスをしている女",
-            345: "教会のオルガン",
-            346: "新月",
-            347: "岩に映された十字",
-            348: "満月",
-            349: "弟子たちに読み書きを教えている大きな女",
-            350: "イースター・サンライズ・サービス",
-            351: "イルミネーションされた顔",
-            352: "洞窟での秘密の集い",
-            353: "クラゲ",
-            354: "色とりどりのランプをつけた男",
-            355: "東洋の図書館",
-            356: "ムーンライト・パーティー",
-            357: "収穫の月",
-            358: "弟子",
-            359: "プリズム",
-            360: "光に満ちた道"
-        };
+const PREFS = [
+['北海道（札幌）',43.06,141.35],['青森県（青森）',40.82,140.74],['岩手県（盛岡）',39.70,141.15],['宮城県（仙台）',38.27,140.87],['秋田県（秋田）',39.72,140.10],['山形県（山形）',38.24,140.36],['福島県（福島）',37.75,140.47],
+['茨城県（水戸）',36.34,140.45],['栃木県（宇都宮）',36.57,139.88],['群馬県（前橋）',36.39,139.06],['埼玉県（さいたま）',35.86,139.65],['千葉県（千葉）',35.60,140.12],['東京都（新宿）',35.69,139.69],['神奈川県（横浜）',35.45,139.64],
+['新潟県（新潟）',37.90,139.02],['富山県（富山）',36.70,137.21],['石川県（金沢）',36.59,136.63],['福井県（福井）',36.07,136.22],['山梨県（甲府）',35.66,138.57],['長野県（長野）',36.65,138.18],['岐阜県（岐阜）',35.39,136.72],['静岡県（静岡）',34.98,138.38],['愛知県（名古屋）',35.18,136.91],
+['三重県（津）',34.73,136.51],['滋賀県（大津）',35.00,135.87],['京都府（京都）',35.02,135.76],['大阪府（大阪）',34.69,135.52],['兵庫県（神戸）',34.69,135.18],['奈良県（奈良）',34.69,135.83],['和歌山県（和歌山）',34.23,135.17],
+['鳥取県（鳥取）',35.50,134.24],['島根県（松江）',35.47,133.05],['岡山県（岡山）',34.66,133.93],['広島県（広島）',34.40,132.46],['山口県（山口）',34.19,131.47],['徳島県（徳島）',34.07,134.56],['香川県（高松）',34.34,134.04],['愛媛県（松山）',33.84,132.77],['高知県（高知）',33.56,133.53],
+['福岡県（福岡）',33.61,130.42],['佐賀県（佐賀）',33.25,130.30],['長崎県（長崎）',32.74,129.87],['熊本県（熊本）',32.79,130.74],['大分県（大分）',33.24,131.61],['宮崎県（宮崎）',31.91,131.42],['鹿児島県（鹿児島）',31.56,130.56],['沖縄県（那覇）',26.21,127.68]
+];
+const GLYPH = { Sun:'☉', Moon:'☽', Mercury:'☿', Venus:'♀', Earth:'♁', Mars:'♂', Jupiter:'♃', Saturn:'♄', Uranus:'♅', Neptune:'♆', Pluto:'♇', Chiron:'⚷', TrueNode:'☊', ASC:'AC', MC:'MC' };
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-        // サビアンシンボル解説データ
-        const sabianInterpretations = {
-            1: "新しい生命力と再生の象徴。純粋な愛と自然な感情の表現。創造性の源泉となる潜在的なエネルギー。",
-            2: "社交性と人を楽しませる才能。周囲を明るくし、調和をもたらす能力。コミュニケーションの重要性。",
-            3: "アイデンティティの確立と自己認識。自分のルーツや出身地への誇り。独自性の重要性。",
-            4: "純粋な愛と理想的な関係。世俗から離れた精神的な絆。真の愛の追求。",
-            5: "精神性と創造性の象徴。高次の目的に向かう意志。スピリチュアルな洞察力。",
-            6: "知識の探求と真理の追究。学問への情熱と理解への欲求。光と闇のバランス。",
-            7: "多面性と適応能力。複数の分野での才能発揮。変化への対応力。",
-            8: "自由への憧れと東洋的な智慧。新しい方向性への指向。風のような軽やかさ。",
-            9: "直感力と透視能力。未来を見通す洞察力。神秘的な体験への開放性。",
-            10: "伝統的な智慧と経験の重要性。過去からの学びと安定した基盤。忍耐力。",
-            11: "リーダーシップと権威。社会的責任と指導力。統治能力の発揮。",
-            12: "自由への憧れと野性的な魅力。束縛されない精神。自然への回帰。",
-            13: "潜在的な危険と破壊力。注意深さの必要性。内に秘めた力の制御。",
-            14: "誘惑と欲望の象徴。知恵と愚かさの選択。本能的な力への警戒。",
-            15: "創造性と忍耐力。コツコツと積み上げる努力。伝統的な技術の習得。",
-            16: "自然との調和と精神的な導き。妖精的な感性。目に見えない世界との繋がり。",
-            17: "対立と競争。名誉をかけた戦い。男性的なエネルギーの象徴。",
-            18: "犠牲と献身。精神的な浄化と解放。物質的な執着からの自由。",
-            19: "夢と幻想の世界。想像力と創造性。現実逃避への誘惑。",
-            20: "養育と保護の本能。無垢なものへの愛情。母性的な優しさ。",
-            // 追加の度数
-            72: "率直で天真爛漫な自己表現。既成概念にとらわれない新鮮な視点。自分らしさを貫く勇気と正直さ。",
-            357: "実りの時を迎える成熟した魂。長い努力の結果が実を結ぶ時期。感謝と豊かさの象徴。収穫への準備と成果への感謝。"
-        };
+// ---- 初期化 ----
+const prefSel = $('pref');
+PREFS.forEach((p, i) => { const o = document.createElement('option'); o.value = i; o.textContent = p[0]; prefSel.appendChild(o); });
+prefSel.value = 12;
+const today = new Date(); $('targetDate').value = today.toISOString().slice(0, 10);
+try { const s = JSON.parse(localStorage.getItem('helio_last') || 'null'); if (s) { for (const k of ['userName','birthDate','birthTime','pref','lat','lon','tz']) if (s[k] !== undefined && $(k)) $(k).value = s[k]; if (s.noTime) $('noTime').checked = true; if (s.manualGeo) { $('manualGeo').checked = true; $('geoFields').style.display = 'block'; } } } catch (e) {}
+$('manualGeo').addEventListener('change', (e) => { $('geoFields').style.display = e.target.checked ? 'block' : 'none'; });
+$('noTime').addEventListener('change', (e) => { $('birthTime').disabled = e.target.checked; });
+$('birthDate').addEventListener('change', checkDst);
+function checkDst() { const v = $('birthDate').value; if (!v) return; const [y, m] = v.split('-').map(Number); $('dstNote').style.display = (y >= 1948 && y <= 1951 && m >= 5 && m <= 9) ? 'block' : 'none'; }
 
-        // サビアンシンボル取得関数
-        function getSabianSymbol(longitude) {
-            const degree = Math.floor(longitude) + 1; // 1度から開始
-            const adjustedDegree = degree > 360 ? degree - 360 : degree;
-            return sabianSymbols[adjustedDegree] || "宇宙の神秘";
-        }
+// ---- ライブラリとデータ ----
+let core = null;
+async function loadAstronomy() {
+  const urls = ['./vendor/astronomy-engine-2.1.19.js', 'https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/esm/astronomy.js', 'https://esm.sh/astronomy-engine@2.1.19'];
+  let last;
+  for (const u of urls) { try { return await import(u); } catch (e) { last = e; } }
+  throw last;
+}
+async function ensureCore() {
+  if (core) return core;
+  $('status').textContent = '天体計算の準備中…';
+  const [Astronomy, tables, sabian, stars, aspects] = await Promise.all([
+    loadAstronomy(),
+    fetch('./data/ephem_tables.json').then((r) => r.json()),
+    fetch('./data/sabian_symbols.json').then((r) => r.json()),
+    fetch('./data/fixed_stars.json').then((r) => r.json()),
+    fetch('./data/aspects.json').then((r) => r.json()),
+  ]);
+  core = createCore({ Astronomy, tables, sabian, stars, aspects });
+  return core;
+}
 
-        // サビアンシンボル解説取得関数
-        function getSabianInterpretation(longitude) {
-            const degree = Math.floor(longitude) + 1;
-            const adjustedDegree = degree > 360 ? degree - 360 : degree;
-            return sabianInterpretations[adjustedDegree] || "この度数は深い宇宙的な意味を持ち、あなたの魂の成長に重要な役割を果たします。";
-        }
+// ---- 計算 ----
+$('calc').addEventListener('click', async () => {
+  try {
+    const bd = $('birthDate').value; if (!bd) { $('status').textContent = '生年月日を入れてください。'; return; }
+    const noTime = $('noTime').checked;
+    const [y, m, d] = bd.split('-').map(Number);
+    const [hh, mm] = (noTime ? '12:00' : ($('birthTime').value || '12:00')).split(':').map(Number);
+    const manual = $('manualGeo').checked;
+    const tz = manual ? Number($('tz').value || 9) : 9;
+    let lat, lon;
+    if (manual) { lat = Number($('lat').value); lon = Number($('lon').value); if (!Number.isFinite(lat) || !Number.isFinite(lon)) { $('status').textContent = '緯度と経度を入れてください。'; return; } }
+    else { const p = PREFS[Number(prefSel.value)]; lat = p[1]; lon = p[2]; }
+    const date = new Date(Date.UTC(y, m - 1, d, hh, mm) - tz * 3600000);
+    const td = $('targetDate').value || today.toISOString().slice(0, 10);
+    const [ty, tm, tdd] = td.split('-').map(Number);
+    const target = new Date(Date.UTC(ty, tm - 1, tdd, 12 - tz, 0));
+    const c = await ensureCore();
+    $('status').textContent = '計算中…';
+    const chart = c.natal({ date, lat, lon, hasTime: !noTime });
+    const transit = c.transit({ natalChart: chart, date: target });
+    const prog = c.progression({ natalChart: chart, date: target });
+    const name = $('userName').value.trim();
+    render({ name, chart, transit, prog, place: manual ? `緯度${lat} 経度${lon}` : PREFS[Number(prefSel.value)][0], local: `${bd} ${noTime ? '（時間不明）' : $('birthTime').value}`, td });
+    try { localStorage.setItem('helio_last', JSON.stringify({ userName: name, birthDate: bd, birthTime: $('birthTime').value, pref: prefSel.value, lat: $('lat').value, lon: $('lon').value, tz: $('tz').value, noTime, manualGeo: manual })); } catch (e) {}
+    $('status').textContent = '';
+    $('result').style.display = 'block';
+    $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (e) {
+    console.error(e);
+    $('status').textContent = '計算できませんでした: ' + (e && e.message ? e.message : e) + '（通信環境をご確認ください。1920〜2080年の範囲で計算できます）';
+  }
+});
 
-        // 感覚の意味取得関数
-        function getSenseMeaning(senseName) {
-            return senseMeanings[senseName] || "この感覚は特別な意味を持ち、あなたの目覚めと成長に重要な役割を果たします。";
-        }
+// ---- 表示 ----
+function posTable(pos, { showSense = false, showHouse = false, cls = '' } = {}) {
+  const rows = Object.keys(pos).map((k) => { const p = pos[k]; return `<tr><td>${GLYPH[k] || ''} ${esc(p.name)}</td><td class="${cls}">${esc(p.sign)}</td><td>${esc(fmtDeg(p.degree))}${p.retro ? '<span class="tag">R</span>' : ''}</td>${showSense ? `<td>${esc(p.sense)}</td>` : ''}${showHouse ? `<td>${p.house ? p.house + 'H' : '－'}</td>` : ''}</tr>`; }).join('');
+  return `<table><thead><tr><th>天体</th><th>星座</th><th>度数（10進 / 度分）</th>${showSense ? '<th>12感覚</th>' : ''}${showHouse ? '<th>ハウス</th>' : ''}</tr></thead><tbody>${rows}</tbody></table>`;
+}
+function aspectList(list, max = 14) { if (!list.length) return '<p class="note">該当なし</p>'; return `<ul class="list">${list.slice(0, max).map((a) => `<li>${esc(a.a)} - ${esc(a.b)}：${a.angle}° ${esc(a.name)}（オーブ ${a.orb}）</li>`).join('')}</ul>`; }
+function starList(list, max = 8) { if (!list.length) return '<p class="note">±1.5度以内の恒星はありません（あなた自身が恒星です）</p>'; return `<ul class="list">${list.slice(0, max).map((s) => `<li>${esc(s.body)} ↔ ${esc(s.star)}（${esc(s.constellation)}・差 ${s.distance}°）</li>`).join('')}</ul>`; }
+function wheel(pos, cusps) {
+  const R = 150, cx = 180, cy = 180;
+  const pt = (lon, r) => { const a = (180 - lon) * Math.PI / 180; return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; };
+  let s = `<svg class="wheel" viewBox="0 0 360 360" role="img" aria-label="ホロスコープの円"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="rgba(255,255,255,.35)"/><circle cx="${cx}" cy="${cy}" r="${R - 28}" fill="none" stroke="rgba(255,255,255,.2)"/>`;
+  for (let i = 0; i < 12; i++) { const [x1, y1] = pt(i * 30, R), [x2, y2] = pt(i * 30, R - 28); const [tx, ty] = pt(i * 30 + 15, R - 14); s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="rgba(255,255,255,.3)"/><text x="${tx}" y="${ty + 4}" text-anchor="middle" font-size="11" fill="#b3add0">${SIGNS[i].slice(0, 2)}</text>`; }
+  if (cusps) for (let h = 1; h <= 12; h++) { if (cusps[h] == null) continue; const [x1, y1] = pt(cusps[h], R - 28), [x2, y2] = pt(cusps[h], 40); s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${h === 1 || h === 10 ? '#f5c66b' : 'rgba(255,255,255,.15)'}" stroke-width="${h === 1 || h === 10 ? 1.5 : 1}"/>`; }
+  const placed = [];
+  for (const k of Object.keys(pos)) { let r = R - 48; while (placed.some(([l, rr]) => Math.abs(((l - pos[k].lon + 540) % 360) - 180) < 7 && rr === r)) r -= 16; placed.push([pos[k].lon, r]); const [x, y] = pt(pos[k].lon, r); s += `<text x="${x}" y="${y + 5}" text-anchor="middle" font-size="14" fill="#ece9f7">${GLYPH[k] || ''}</text>`; }
+  return s + '</svg>';
+}
+function render({ name, chart, transit, prog, place, local, td }) {
+  $('resMeta').textContent = `${name ? name + '　' : ''}出生: ${local}（${place}）／ 経過図・進行図の日付: ${td}`;
+  const sab = chart.sabian;
+  $('p-helio').innerHTML = `<p class="sub"><span class="helio">ヘリオセントリック</span>＝太陽から見た配置。肉体を持たない、魂の本来の資質。地球星座と12感覚で読みます。</p>${wheel(chart.helio)}${posTable(chart.helio, { showSense: true, cls: 'helio' })}
+    <h3>地球のサビアンシンボル</h3><p>${esc(sab.earth.sign)}${sab.earth.degree}度「${esc(sab.earth.title || '')}」</p>
+    <h3>アスペクト（角度）</h3>${aspectList(chart.aspects.helio)}
+    <h3>共鳴する恒星</h3>${starList(chart.stars.helio)}`;
+  const hs = chart.houses;
+  $('p-geo').innerHTML = `<p class="sub"><span class="geo">ジオセントリック</span>＝地球から見た配置。肉体を持つ今のあなたの資質。ハウスとアスペクトで読みます。${hs ? '' : '<span class="warn">（出生時間が不明のためASC・MC・ハウスは出していません）</span>'}</p>${wheel(chart.geo, hs ? hs.cusps : null)}${posTable(chart.geo, { showHouse: !!hs, cls: 'geo' })}
+    ${hs ? `<h3>ハウス（${esc(hs.system)}）</h3><p class="note">${Object.keys(hs.cusps).sort((a, b) => a - b).map((h) => `${h}H ${esc(fmtPos(hs.cusps[h]))}`).join('　')}</p>` : ''}
+    <h3>サビアンシンボル</h3><p>太陽: ${esc(sab.sun.sign)}${sab.sun.degree}度「${esc(sab.sun.title || '')}」<br>月: ${esc(sab.moon.sign)}${sab.moon.degree}度「${esc(sab.moon.title || '')}」${sab.asc ? `<br>ASC: ${esc(sab.asc.sign)}${sab.asc.degree}度「${esc(sab.asc.title || '')}」` : ''}</p>
+    <h3>アスペクト（タイトな順）</h3>${aspectList(chart.aspects.geo, 16)}
+    <h3>共鳴する恒星</h3>${starList(chart.stars.geo)}`;
+  $('p-drac').innerHTML = chart.draconic ? `<p class="sub"><span class="drac">ドラコニック</span>＝ドラゴンヘッド（${esc(fmtPos(chart.geo.TrueNode.lon))}）を牡羊座0度に置き直した配置。過去生で培い、当たり前にできること。</p>${wheel(chart.draconic)}${posTable(chart.draconic, { cls: 'drac' })}` : '<p class="note">この年代はドラゴンヘッドの表の範囲外です。</p>';
+  $('p-transit').innerHTML = `<p class="sub">経過図（トランジット）＝ ${esc(td)} の空の配置が、あなたの出生図にどう触れているか。</p><h3>ジオ（現実のタイミング）</h3>${posTable(transit.geo, { showHouse: !!hs, cls: 'geo' })}<h3>出生図へのアスペクト（経過天体 - 出生天体）</h3>${aspectList(transit.toNatal.geo, 20)}<h3>ヘリオ（魂の流れ）</h3>${posTable(transit.helio, { cls: 'helio' })}<h3>ヘリオ出生図へのアスペクト</h3>${aspectList(transit.toNatal.helio, 12)}`;
+  $('p-prog').innerHTML = `<p class="sub">進行図（二次進行・1日=1年）＝ 生まれてからの年数を日数に置き換えた日（${esc(prog.progressedDate.toISOString().slice(0, 10))} UTC）の配置。内側の成長の段階。</p><h3>ジオ進行</h3>${posTable(prog.geo, { showHouse: !!hs, cls: 'geo' })}<h3>出生図へのアスペクト（進行天体 - 出生天体）</h3>${aspectList(prog.toNatal.geo, 20)}<h3>ヘリオ進行</h3>${posTable(prog.helio, { cls: 'helio' })}`;
+  $('aiText').value = formatReport({ name, chart, transit, progression: prog });
+}
 
-        // 計算関数群
-        function calculateJulianDay(year, month, day, hour, minute) {
-            const a = Math.floor((14 - month) / 12);
-            const y = year + 4800 - a;
-            const m = month + 12 * a - 3;
-            const JDN = day + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
-            const JD = JDN + (hour - 12) / 24 + minute / 1440;
-            return JD;
-        }
-        
-        // Astronomy Engine を使ったヘリオセントリック黄経（利用可能な場合）
-        function helioLongitudeUsingAstronomy(bodyName, JD) {
-            try {
-                if (!window.Astronomy) return null;
-                const ms = (JD - 2440587.5) * 86400000;
-                const date = new Date(ms);
-                const A = window.Astronomy;
-                const time = new A.AstroTime(date);
-                const body = (A.Body && A.Body[bodyName]) ? A.Body[bodyName] : bodyName;
-                const vec = A.HelioVector(body, time);
-                const ecl = A.Ecliptic(vec);
-                let lon = ecl.elon % 360;
-                if (lon < 0) lon += 360;
-                return lon;
-            } catch (e) {
-                console.warn('Astronomy helio calc failed:', e);
-                return null;
-            }
-        }
-
-        function calculateSunPosition(JD) {
-            const T = (JD - 2451545.0) / 36525;
-            const L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
-            const M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T;
-            const C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M * Math.PI / 180) +
-                     (0.019993 - 0.000101 * T) * Math.sin(2 * M * Math.PI / 180) +
-                     0.000289 * Math.sin(3 * M * Math.PI / 180);
-            const sunLong = (L0 + C) % 360;
-            return sunLong < 0 ? sunLong + 360 : sunLong;
-        }
-        
-        function calculateMercuryPosition(JD) {
-            const lonAE = helioLongitudeUsingAstronomy('Mercury', JD);
-            if (typeof lonAE === 'number') return lonAE;
-            
-            const date = new Date(JD * 86400000 - 2440587.5 * 86400000);
-            const year = date.getUTCFullYear();
-            const month = date.getUTCMonth() + 1;
-            const day = date.getUTCDate();
-            const referencePoints = [
-                {year: 1955, month: 1, day: 1, longitude: 240},
-                {year: 1969, month: 12, day: 4, longitude: 282},
-                {year: 1985, month: 6, day: 15, longitude: 90},
-                {year: 1990, month: 3, day: 26, longitude: 32},
-                {year: 2000, month: 2, day: 1, longitude: 342},
-                {year: 2003, month: 8, day: 18, longitude: 298},
-                {year: 2025, month: 1, day: 1, longitude: 60}
-            ];
-            for (const ref of referencePoints) {
-                if (year === ref.year && month === ref.month && day === ref.day) {
-                    return ref.longitude;
-                }
-            }
-            const decimalYear = year + (month - 1) / 12 + (day - 1) / 365.25;
-            let baseLongitude = 280;
-            let found = false;
-            for (let i = 0; i < referencePoints.length - 1; i++) {
-                const ref1 = referencePoints[i];
-                const ref2 = referencePoints[i + 1];
-                const year1 = ref1.year + (ref1.month - 1) / 12 + (ref1.day - 1) / 365.25;
-                const year2 = ref2.year + (ref2.month - 1) / 12 + (ref2.day - 1) / 365.25;
-                if (decimalYear >= year1 && decimalYear <= year2) {
-                    const ratio = (decimalYear - year1) / (year2 - year1);
-                    baseLongitude = ref1.longitude + ratio * (ref2.longitude - ref1.longitude);
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                baseLongitude = (decimalYear < 1955) ? referencePoints[0].longitude : referencePoints[referencePoints.length - 1].longitude;
-            }
-            const daysSinceEpoch = (JD - 2451545.0);
-            const mercuryCycles = daysSinceEpoch / 88;
-            const orbitalOffset = (mercuryCycles * 360) % 360;
-            let finalLongitude = (baseLongitude + orbitalOffset * 0.1) % 360;
-            if (finalLongitude < 0) finalLongitude += 360;
-            return finalLongitude;
-        }
-        
-        function calculateVenusPosition(JD) {
-            const lonAE = helioLongitudeUsingAstronomy('Venus', JD);
-            if (typeof lonAE === 'number') return lonAE;
-            
-            const T = (JD - 2451545.0) / 36525;
-            const L = 181.979801 + 58517.8156760 * T + 0.00000165 * T * T;
-            const M = 50.4161 + 1602.6108 * T - 0.000139 * T * T;
-            const e = 0.00677323 - 0.000047624 * T + 0.0000000906 * T * T;
-            const E = M + e * 180 / Math.PI * Math.sin(M * Math.PI / 180);
-            const v = 2 * Math.atan(Math.sqrt((1 + e) / (1 - e)) * Math.tan(E * Math.PI / 360));
-            const venusLong = (L + v * 180 / Math.PI - M) % 360;
-            return venusLong < 0 ? venusLong + 360 : venusLong;
-        }
-        
-        function getZodiacSign(longitude) {
-            const signIndex = Math.floor(longitude / 30);
-            const degreeInSign = longitude % 30;
-            
-            return {
-                name: zodiacSignsPlain[signIndex],
-                nameWithIcon: zodiacSigns[signIndex],
-                degree: degreeInSign,
-                sense: senseMappings[zodiacSignsPlain[signIndex]]
-            };
-        }
-        
-        // 計算開始
-        async function startCalculation() {
-            const birthDate = document.getElementById('birthDate').value;
-            const birthTime = document.getElementById('birthTime').value;
-            const userName = document.getElementById('userName').value;
-            
-            if (!birthDate) {
-                alert('生年月日を入力してください');
-                return;
-            }
-            
-            showLoading();
-
-            // Astronomy Engine の読み込み待機
-            for (let i = 0; i < 6 && !window.Astronomy; i++) {
-                await new Promise(r => setTimeout(r, 500));
-            }
-            
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            const [year, month, day] = birthDate.split('-').map(Number);
-            const [hour, minute] = birthTime.split(':').map(Number);
-            
-            const dtLocal = new Date(year, month - 1, day, hour || 0, minute || 0);
-            const yUTC = dtLocal.getUTCFullYear();
-            const mUTC = dtLocal.getUTCMonth() + 1;
-            const dUTC = dtLocal.getUTCDate();
-            const hUTC = dtLocal.getUTCHours();
-            const minUTC = dtLocal.getUTCMinutes();
-            const JD = calculateJulianDay(yUTC, mUTC, dUTC, hUTC, minUTC);
-            
-            let earthLongitude = helioLongitudeUsingAstronomy('Earth', JD);
-            if (typeof earthLongitude !== 'number') {
-                const sunLongitude = calculateSunPosition(JD);
-                earthLongitude = (sunLongitude + 180) % 360;
-            }
-            const mercuryLongitude = calculateMercuryPosition(JD);
-            const venusLongitude = calculateVenusPosition(JD);
-            
-            const earthSign = getZodiacSign(earthLongitude);
-            const mercurySign = getZodiacSign(mercuryLongitude);
-            const venusSign = getZodiacSign(venusLongitude);
-            
-            const calculationResult = {
-                userName: userName || '匿名',
-                birthDate: birthDate,
-                birthTime: birthTime,
-                earth: earthSign,
-                mercury: mercurySign,
-                venus: venusSign
-            };
-            
-            hideLoading();
-            displayResult(calculationResult);
-        }
-        
-        // 天体図生成関数
-        function generateHeliocentricChart(earthLongitude, mercuryLongitude, venusLongitude) {
-            const chart = document.getElementById('helioChart');
-            chart.innerHTML = '';
-            
-            // 太陽を中心に配置
-            const sun = document.createElement('div');
-            sun.className = 'sun-center';
-            sun.title = '☉ 太陽';
-            chart.appendChild(sun);
-            
-            // 度数マーカーを追加
-            const degreeMarkers = document.createElement('div');
-            degreeMarkers.className = 'degree-markers';
-            for (let i = 0; i < 72; i++) {
-                const marker = document.createElement('div');
-                marker.className = 'degree-mark';
-                marker.style.transform = `rotate(${i * 5}deg)`;
-                degreeMarkers.appendChild(marker);
-            }
-            chart.appendChild(degreeMarkers);
-            
-            // 星座ラベルを追加
-            const zodiacLabels = document.createElement('div');
-            zodiacLabels.className = 'zodiac-labels';
-            const zodiacSymbols = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓'];
-            for (let i = 0; i < 12; i++) {
-                const label = document.createElement('div');
-                label.className = 'zodiac-label';
-                label.textContent = zodiacSymbols[i];
-                const angle = i * 30;
-                const radian = (angle - 90) * Math.PI / 180;
-                const radius = 180;
-                const x = 180 + radius * Math.cos(radian);
-                const y = 180 + radius * Math.sin(radian);
-                label.style.left = x + 'px';
-                label.style.top = y + 'px';
-                zodiacLabels.appendChild(label);
-            }
-            chart.appendChild(zodiacLabels);
-            
-            // 天体を配置
-            const planets = [
-                { name: '🌍', longitude: earthLongitude, class: 'planet-earth', title: '地球' },
-                { name: '☿', longitude: mercuryLongitude, class: 'planet-mercury', title: '水星' },
-                { name: '♀', longitude: venusLongitude, class: 'planet-venus', title: '金星' }
-            ];
-            
-            planets.forEach(planet => {
-                const planetElement = document.createElement('div');
-                planetElement.className = `planet ${planet.class}`;
-                planetElement.textContent = planet.name;
-                planetElement.title = `${planet.title} ${planet.longitude.toFixed(1)}°`;
-                
-                // 天体の位置を計算（0度を右側、反時計回り）
-                const angle = planet.longitude;
-                const radian = (angle - 90) * Math.PI / 180;
-                const radius = 130; // 太陽からの距離
-                const x = 160 + radius * Math.cos(radian);
-                const y = 160 + radius * Math.sin(radian);
-                
-                planetElement.style.left = x + 'px';
-                planetElement.style.top = y + 'px';
-                
-                chart.appendChild(planetElement);
-            });
-        }
-
-        // 結果表示
-        function displayResult(result) {
-            const title = result.userName !== '匿名' ? `${result.userName}さんのヘリオセントリック天体位置` : 'ヘリオセントリック天体位置';
-            document.getElementById('resultTitle').textContent = title;
-            
-            const earthLongitude = parseFloat(result.earth.degree) + getSignOffset(result.earth.name);
-            const mercuryLongitude = parseFloat(result.mercury.degree) + getSignOffset(result.mercury.name);
-            const venusLongitude = parseFloat(result.venus.degree) + getSignOffset(result.venus.name);
-            
-            // 天体図を生成
-            generateHeliocentricChart(earthLongitude, mercuryLongitude, venusLongitude);
-            
-            const nearbyStars = findNearbyStars([
-                { name: '地球', longitude: earthLongitude },
-                { name: '水星', longitude: mercuryLongitude },
-                { name: '金星', longitude: venusLongitude }
-            ]);
-
-            let starInfo = '';
-            if (nearbyStars.length > 0) {
-                starInfo = `<br><p><strong>⭐ 恒星の影響:</strong></p>
-                ${nearbyStars.map(star => `
-                    <p>• <strong>${star.planet}</strong>に<strong style="color: #64ffda;">${star.star}</strong>（${star.distance.toFixed(1)}度差）<br>
-                    <small style="color: #94a3b8; margin-left: 15px;">${getStarInterpretation(star.star)}</small></p>
-                `).join('')}`;
-            }
-
-            const earthSabianSymbol = getSabianSymbol(earthLongitude);
-            const earthSabianInterpretation = getSabianInterpretation(earthLongitude);
-            
-            const overviewContent = `
-                <p><strong>日時:</strong> ${result.birthDate} ${result.birthTime}</p>
-                <p><strong>太陽視点からの天体位置（逆行なし）:</strong></p>
-                <p>🌍 <strong>地球</strong>: ${result.earth.nameWithIcon} ${result.earth.degree.toFixed(2)}° - ${result.earth.sense}</p>
-                <div style="margin-left: 20px; margin-top: 10px; padding: 15px; background: rgba(245, 158, 11, 0.08); border-radius: 8px; border-left: 3px solid #f59e0b;">
-                    <p style="color: #fbbf24; font-style: italic; font-size: 0.9em; margin: 0 0 8px 0;">📜 サビアンシンボル</p>
-                    <p style="color: #fbbf24; font-weight: 500; margin: 0 0 10px 0;">「${earthSabianSymbol}」</p>
-                    <p style="color: #e8e8f0; font-size: 0.9em; line-height: 1.5; margin: 0;">${earthSabianInterpretation}</p>
-                </div>
-                <p>☿ <strong>水星</strong>: ${result.mercury.nameWithIcon} - ${result.mercury.sense}</p>
-                <p>♀ <strong>金星</strong>: ${result.venus.nameWithIcon} - ${result.venus.sense}</p>
-                ${starInfo}
-                <br>
-                <p>ヘリオセントリック占星術では逆行現象は存在せず、天体の真の宇宙的位置を知ることができます。</p>
-            `;
-            
-            document.getElementById('overviewContent').innerHTML = overviewContent;
-
-            // AIプロンプト生成
-            const prompt = generateAIPrompt(result);
-            const aiArea = document.getElementById('aiPrompt');
-            const aiCard = document.getElementById('aiPromptCard');
-            if (aiArea && aiCard) {
-                aiArea.value = prompt;
-                aiCard.style.display = 'block';
-            }
-            
-            const traitGrid = document.getElementById('traitGrid');
-            traitGrid.innerHTML = `
-                <div class="trait-item trait-earth">
-                    <h3 style="color: #f59e0b; margin-bottom: 15px;">🌍 地球【１つ目の鍵】</h3>
-                    <p style="color: #94a3b8; font-size: 0.9em; margin-bottom: 10px;">魂の本質・現実創造力</p>
-                    <p><strong>${result.earth.nameWithIcon} ${result.earth.degree.toFixed(2)}°</strong></p>
-                    <div style="background: rgba(245, 158, 11, 0.1); padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 3px solid #f59e0b;">
-                        <p style="font-style: italic; color: #e8e8f0; font-size: 0.9em; margin: 0 0 5px 0;">📜 サビアンシンボル</p>
-                        <p style="color: #fbbf24; margin: 0 0 10px 0; font-weight: 500;">「${earthSabianSymbol}」</p>
-                        <p style="color: #e8e8f0; font-size: 0.85em; line-height: 1.4; margin: 0;">${earthSabianInterpretation}</p>
-                    </div>
-                    <p style="margin-top: 10px;">${getEarthInterpretation(result.earth.name)}</p>
-                    <div style="background: rgba(245, 158, 11, 0.08); padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px solid rgba(245, 158, 11, 0.3);">
-                        <p style="color: #f59e0b; font-weight: bold; margin: 0 0 8px 0;">🎯 目覚めのスイッチ（感覚）</p>
-                        <p style="color: #e8e8f0; font-size: 1em; margin: 0 0 8px 0; font-weight: 500;">${result.earth.sense}</p>
-                        <p style="color: #d1d5db; font-size: 0.9em; line-height: 1.4; margin: 0;">${getSenseMeaning(result.earth.sense)}</p>
-                    </div>
-                </div>
-                
-                <div class="trait-item trait-mercury">
-                    <h3 style="color: #ef4444; margin-bottom: 15px;">☿ 水星【２つ目の鍵】</h3>
-                    <p style="color: #94a3b8; font-size: 0.9em; margin-bottom: 10px;">学習・探索・思考パターン</p>
-                    <p><strong>${result.mercury.nameWithIcon}</strong></p>
-                    <p style="margin-top: 10px;">${getMercuryInterpretation(result.mercury.name)}</p>
-                    <div style="background: rgba(239, 68, 68, 0.08); padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px solid rgba(239, 68, 68, 0.3);">
-                        <p style="color: #ef4444; font-weight: bold; margin: 0 0 8px 0;">🎯 目覚めのスイッチ（感覚）</p>
-                        <p style="color: #e8e8f0; font-size: 1em; margin: 0 0 8px 0; font-weight: 500;">${result.mercury.sense}</p>
-                        <p style="color: #d1d5db; font-size: 0.9em; line-height: 1.4; margin: 0;">${getSenseMeaning(result.mercury.sense)}</p>
-                    </div>
-                </div>
-                
-                <div class="trait-item trait-venus">
-                    <h3 style="color: #8b5cf6; margin-bottom: 15px;">♀ 金星【３つ目の鍵】</h3>
-                    <p style="color: #94a3b8; font-size: 0.9em; margin-bottom: 10px;">価値観・喜び・美意識</p>
-                    <p><strong>${result.venus.nameWithIcon}</strong></p>
-                    <p style="margin-top: 10px;">${getVenusInterpretation(result.venus.name)}</p>
-                    <div style="background: rgba(139, 92, 246, 0.08); padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px solid rgba(139, 92, 246, 0.3);">
-                        <p style="color: #8b5cf6; font-weight: bold; margin: 0 0 8px 0;">🎯 目覚めのスイッチ（感覚）</p>
-                        <p style="color: #e8e8f0; font-size: 1em; margin: 0 0 8px 0; font-weight: 500;">${result.venus.sense}</p>
-                        <p style="color: #d1d5db; font-size: 0.9em; line-height: 1.4; margin: 0;">${getSenseMeaning(result.venus.sense)}</p>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('inputSection').style.display = 'none';
-            document.getElementById('resultSection').style.display = 'block';
-        }
-
-        // AI診断プロンプト生成
-        function generateAIPrompt(result) {
-            const earth = `${result.earth.name} ${result.earth.degree.toFixed(2)}° (${result.earth.sense})`;
-            const mercury = `${result.mercury.name} (${result.mercury.sense})`;
-            const venus = `${result.venus.name} (${result.venus.sense})`;
-            
-            return `以下のヘリオセントリック占星術データから、人生の羅針盤を診断してください。
-
-【入力データ】
-
-地球（魂の本質・現実創造力）: ${earth}
-
-水星（学習・探索・思考パターン）: ${mercury}
-
-金星（価値観・喜び・美意識）: ${venus}
-
-【出力要件】
-
-各天体ごとに
-　- 魂の資質（星座＋12感覚の観点）
-　- 活かすコツ（日常でどう磨くか）
-　- 目覚めのスイッチ（行動提案）
-　- 参考サビアンシンボル（度数+1を一言で要約）
-　- 共鳴する恒星があれば、その象徴的メッセージ
-
-「今日のスイッチ」を３つ、箇条書きで提示。
-
-表現基準
-　- 否定的表現を避ける
-　- 誠実で的確、高い視点で読み解く
-　- 抽象的に偏らず、実践的にまとめる
-
-最後に、心の奥で眠っている「本当の私」を呼び覚ます言葉を、筆者の代わりに愛を持って伝えるメッセージで締める`;
-        }
-
-        function openGPTS() {
-            const gptUrl = 'https://chatgpt.com/g/g-68faf40e50448191be95c373744e8ec6-aixyi-shi-13-heriosentoritukuzhan-xing-shu-3tunojian-toluo-zhen-pan';
-            const prompt = document.getElementById('aiPrompt').value;
-            
-            if (prompt.trim() === '') {
-                alert('まずチャートを作成してからGPTSにアクセスしてください。');
-                return;
-            }
-            
-            // プロンプトをクリップボードにコピー
-            navigator.clipboard.writeText(prompt).then(() => {
-                alert('診断データをクリップボードにコピーしました！\n専用GPTSが開くので、そこに貼り付けてください。');
-                window.open(gptUrl, '_blank');
-            }).catch(() => {
-                // フォールバック
-                const area = document.getElementById('aiPrompt');
-                area.select();
-                document.execCommand('copy');
-                alert('診断データをクリップボードにコピーしました！\n専用GPTSが開くので、そこに貼り付けてください。');
-                window.open(gptUrl, '_blank');
-            });
-        }
-
-        function copyAIPrompt() {
-            const area = document.getElementById('aiPrompt');
-            if (!area || area.value.trim() === '') {
-                alert('まずチャートを作成してからプロンプトをコピーしてください。');
-                return;
-            }
-            
-            // 新しいClipboard APIを試し、失敗したらフォールバック
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(area.value).then(() => {
-                    alert('診断プロンプトをクリップボードにコピーしました！\nChatGPTまたは専用GPTSに貼り付けてご利用ください。');
-                }).catch(() => {
-                    // フォールバック
-                    area.select();
-                    document.execCommand('copy');
-                    alert('診断プロンプトをクリップボードにコピーしました！\nChatGPTまたは専用GPTSに貼り付けてご利用ください。');
-                });
-            } else {
-                // フォールバック
-                area.select();
-                document.execCommand('copy');
-                alert('診断プロンプトをクリップボードにコピーしました！\nChatGPTまたは専用GPTSに貼り付けてご利用ください。');
-            }
-        }
-        
-        function hideDiagnosis() {
-            document.getElementById('diagnosisResult').style.display = 'none';
-        }
-        
-        // 星座解釈関数群
-        function getEarthInterpretation(sign) {
-            const interpretations = {
-                '牡羊座': '何でもとりあえず「やってみよう」の人。新しいことに挑戦することで魂が喜ぶタイプです。前例がないことほど燃える、パイオニア精神の持ち主。',
-                '牡牛座': 'じっくり本質を考える人。表面的なことよりも、物事の根本や真理を理解したいタイプ。一度決めたらブレない強い意志を持っています。',
-                '双子座': '「言葉」を生み出す人。コミュニケーションを通じて世界を広げていく人。情報収集能力に長けており、多角的な視点を持っています。',
-                '蟹座': '共感力・共鳴力の高い人。感情的なつながりを大切にし、人の気持ちを理解することに長けています。包容力があり、安心感を与える存在。',
-                '獅子座': '自分の創造性をアピールする人。自分らしさを表現することで輝くタイプ。リーダーシップがあり、周囲を明るく照らす太陽のような存在。',
-                '乙女座': '霊的ビジョンを良く受け取る人。細部への注意力と直感力を兼ね備えており、完璧を追求する傾向があります。奉仕の精神が強い。',
-                '天秤座': '自分にとっての究極のバランス感覚をもつ人。調和と美を重視し、公平性を大切にします。人間関係の調整役として才能を発揮。',
-                '蠍座': '生きている実感を大切にする人。深い感情と強い意志を持ち、変容と再生のエネルギーを秘めています。真実を追求する探究心が旺盛。',
-                '射手座': '哲学的な人。高い理想と大きなビジョンを持ち、知識と智慧を求め続けます。自由を愛し、冒険心に満ちています。',
-                '山羊座': '自分の居場所で自分らしさを発揮する人。責任感が強く、着実に目標に向かって努力します。社会的な成功を重視する傾向があります。',
-                '水瓶座': '枠にハマらない人。独創性と革新性を重視し、既存の常識にとらわれません。人類愛と理想主義を併せ持っています。',
-                '魚座': '次元の狭間にいるような人。直感力と想像力に優れ、スピリチュアルな感性を持っています。境界を越えた愛と慈悲の心を持つ。'
-            };
-            return interpretations[sign] || '特別な魂の性質を持つ人です。';
-        }
-        
-        function getMercuryInterpretation(sign) {
-            const interpretations = {
-                '牡羊座': 'やったことない事、まだ形になっていないものを探索することに関して能力があります。アイデアを形にする初期段階で力を発揮。',
-                '牡牛座': 'ものの本質を見たい、とにかくじっくり考えてやってみたいという探索能力。時間をかけて深く理解することで真の知識を得ます。',
-                '双子座': '言葉による表現、思考を運ぶための言葉を使う事に関して能力があります。情報の収集と伝達において卓越した才能を示します。',
-                '蟹座': '聴覚に関係しますが、これは実際に聞こえる音というよりも、感情や雰囲気を「聞き取る」能力。共感的な理解力が特徴。',
-                '獅子座': '環境から自分を独立させて、自分の熱意、集中力、意欲というものを作り出す能力。創造的なエネルギーを集中させることができます。',
-                '乙女座': '自分の中に、何かビジョンとして見えたり感じたりすることが、探索の始まりになります。直感的な洞察力と分析力を併せ持つ。',
-                '天秤座': '自分の境界線を探る鍵となるのは触覚です。バランス感覚と美的センスを通じて物事を理解し、調和を見出します。',
-                '蠍座': '重要なのは生命感覚です。生と死、変容のエネルギーを感じ取り、深層心理や隠された真実を探究する能力があります。',
-                '射手座': '運動感覚に関係していて、その背後に言語感覚も関連します。体験を通じて学び、それを哲学的な概念として表現する才能。',
-                '山羊座': 'あちこち動いた後に、自分にとって一番重要な場所を見つけ出します。実践的な経験を積み重ねて確実な知識を構築。',
-                '水瓶座': '重要なのは嗅覚で、これは実際に匂いを嗅ぐ感覚ではなく、時代の空気や未来の兆しを察知する直感的な能力。',
-                '魚座': '味覚のように舌の上で溶けてゆき、それと一体化するのが魚座の探索です。境界を越えて物事と融合し、深い理解を得ます。'
-            };
-            return interpretations[sign] || '独特な学習スタイルを持つ人です。';
-        }
-        
-        function getVenusInterpretation(sign) {
-            const interpretations = {
-                '牡羊座': '自分の楽しみが明確に決まっておらず様々なことを試していきます。新しい体験や刺激的な活動に喜びを見出します。',
-                '牡牛座': '天の知恵を無尽蔵に引き出せる事、そのための思考力が授けられています。美と調和を通じて深い満足感を得ます。',
-                '双子座': '知性の元になるのは言葉です。コミュニケーションや学習を通じて喜びを感じ、多様な関係性を楽しみます。',
-                '蟹座': 'この人は愛情深く、人と感情的に一体化することに喜びを見出します。家族や親しい人との絆を何より大切にします。',
-                '獅子座': '自分の中心から外に広がる創造的な楽しみ、遊び、子供っぽさを表します。自己表現と創造活動に大きな喜びを感じます。',
-                '乙女座': '空間の中の対象物を良く見て、その特徴をしっかり認識します。完璧性と奉仕を通じて深い満足感を得ます。',
-                '天秤座': '誰かと話をしたい、何か違うものを見たい、触れたいと外に意識が向きます。美と調和、パートナーシップに喜びを見出します。',
-                '蠍座': '自分が「生きている」という感覚が深まることで生きる力が強まります。深い絆と変容の体験に価値を見出します。',
-                '射手座': '自分から意識してバタバタ動くのではなく、なかば無意識状態で体が動いてしまう。冒険と学習、自由な探求に喜びを感じます。',
-                '山羊座': '人に指示された作業をするのではなく、自分の頭で何か考えて積極的に働きかけることが重要。達成と責任感に満足を見出します。',
-                '水瓶座': 'ローカルな価値観に染まらない、美意識やセンスをもつ。独創性と理想主義を通じて、人類への貢献に喜びを感じます。',
-                '魚座': '実際のものを見なくても、それを感じ取るということができます。共感と慈悲、スピリチュアルな体験に深い喜びを見出します。'
-            };
-            return interpretations[sign] || '独特な価値観を持つ人です。';
-        }
-        
-        function printResult() {
-            const printWindow = window.open('', '_blank');
-            const resultContent = document.getElementById('resultSection').innerHTML;
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>ヘリオセントリック占星術～人生の羅針盤～ - 結果</title>
-                    <style>
-                        body { 
-                            font-family: 'Arial', 'メイリオ', sans-serif; 
-                            margin: 20px; 
-                            background: #ffffff; 
-                            color: #333333; 
-                            line-height: 1.6;
-                        }
-                        .cosmic-card { 
-                            background: #f8f9fa; 
-                            border: 2px solid #64ffda; 
-                            border-radius: 10px; 
-                            padding: 20px; 
-                            margin-bottom: 20px; 
-                        }
-                        button { display: none; }
-                    </style>
-                </head>
-                <body>
-                    <h1 style="text-align: center; color: #2c3e50;">🌟 ヘリオセントリック占星術～人生の羅針盤～ - 結果</h1>
-                    ${resultContent}
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
-        }
-        
-        function restartCalculation() {
-            document.getElementById('birthDate').value = '';
-            document.getElementById('birthTime').value = '12:00';
-            document.getElementById('userName').value = '';
-            document.getElementById('inputSection').style.display = 'block';
-            document.getElementById('resultSection').style.display = 'none';
-        }
-        
-        // 恒星関連関数
-        function getSignOffset(signName) {
-            const signIndex = zodiacSignsPlain.indexOf(signName);
-            return signIndex * 30;
-        }
-        
-        function findNearbyStars(planets) {
-            const nearbyStars = [];
-            const maxDistance = 5;
-            
-            planets.forEach(planet => {
-                fixedStars.forEach(star => {
-                    let distance = Math.abs(planet.longitude - star.longitude);
-                    if (distance > 180) distance = 360 - distance;
-                    
-                    if (distance <= maxDistance) {
-                        nearbyStars.push({
-                            planet: planet.name,
-                            star: star.name,
-                            distance: distance
-                        });
-                    }
-                });
-            });
-            
-            return nearbyStars.sort((a, b) => a.distance - b.distance);
-        }
-        
-        function getStarInterpretation(starName) {
-            const interpretations = {
-                'アルデバラン': '王者の星：リーダーシップと名誉をもたらす。古代ペルシャの王室の星として崇められ、成功と権威の象徴',
-                'レグルス': '心臓の星：勇気と高潔さを象徴する。獅子座の心臓部に位置し、王者の心と不屈の精神を表す',
-                'スピカ': '乙女の星：芸術的才能と純粋さを表す。豊穣と知恵の女神が持つ麦の穂を象徴し、創造性と完璧性をもたらす',
-                'アンタレス': '戦士の星：情熱と変革の力を持つ。火星のライバルとして知られ、激しい情熱と変革のエネルギーを象徴',
-                'フォーマルハウト': '孤独の星：独立心と精神的な探求。南の空に孤高に輝く星として、独特の個性と精神的な洞察力を表す',
-                'シリウス': '犬の星：忠誠心と成功をもたらす。夜空で最も明るい星として、名声と栄光、そして不滅の魂を象徴',
-                'カペラ': '母の星：養育と保護の力を持つ。山羊座の母なる星として、慈愛と保護、そして豊かさをもたらす',
-                'ベガ': '織女の星：創造性と芸術的感性。天の川を越えた愛の物語で知られ、芸術と美の才能を授ける',
-                'アルタイル': '鷲の星：自由と冒険への憧れ。高く舞い上がる鷲のように、自由な精神と冒険心を象徴',
-                'ベテルギウス': '巨人の星：偉大さと影響力を象徴。オリオンの肩に輝く巨大な星として、壮大なスケールでの成功と影響力を表す'
-            };
-            return interpretations[starName] || '神秘的な星の影響';
-        }
-
-        // クリック時のキラキラエフェクト
-        function createSparkle(x, y) {
-            const sparkleCount = 6;
-            const colors = ['#64ffda', '#a855f7', '#f59e0b', '#ffffff', '#ddd6fe'];
-            
-            for (let i = 0; i < sparkleCount; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle';
-                
-                const size = Math.random() * 6 + 3;
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                const angle = (i / sparkleCount) * 360 + Math.random() * 60;
-                const distance = Math.random() * 40 + 20;
-                
-                sparkle.style.width = size + 'px';
-                sparkle.style.height = size + 'px';
-                sparkle.style.background = color;
-                sparkle.style.borderRadius = '50%';
-                sparkle.style.boxShadow = `0 0 8px ${color}`;
-                sparkle.style.left = (x - size/2) + 'px';
-                sparkle.style.top = (y - size/2) + 'px';
-                
-                // ランダムな方向に移動
-                const radian = angle * Math.PI / 180;
-                const endX = x + Math.cos(radian) * distance;
-                const endY = y + Math.sin(radian) * distance;
-                
-                document.body.appendChild(sparkle);
-                
-                // アニメーション実行
-                setTimeout(() => {
-                    sparkle.style.transform = `translate(${endX - x}px, ${endY - y}px) scale(0)`;
-                    sparkle.style.opacity = '0';
-                    sparkle.style.transition = 'all 0.8s ease-out';
-                }, 10);
-                
-                // 要素を削除
-                setTimeout(() => {
-                    if (sparkle.parentNode) {
-                        sparkle.parentNode.removeChild(sparkle);
-                    }
-                }, 800);
-            }
-        }
-
-        // ページ読み込み時に星空を生成とクリックイベントを設定
-        window.addEventListener('load', function() {
-            createStars();
-            
-            // クリック時のキラキラエフェクト
-            document.addEventListener('click', function(e) {
-                createSparkle(e.clientX, e.clientY);
-            });
-        });
-    </script>
+// ---- タブ・コピー ----
+document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.tab').forEach((x) => x.setAttribute('aria-selected', 'false')); b.setAttribute('aria-selected', 'true'); document.querySelectorAll('.panel').forEach((p) => p.classList.remove('on')); $(b.dataset.panel).classList.add('on'); }));
+$('copyBtn').addEventListener('click', async () => { const t = $('aiText').value; if (!t) { $('copyStatus').textContent = '先に計算してください。'; return; } try { await navigator.clipboard.writeText(t); $('copyStatus').textContent = 'コピーしました。AIに貼り付けてください。'; } catch (e) { $('aiText').select(); $('copyStatus').textContent = '全選択しました。Ctrl+C（⌘+C）でコピーしてください。'; } });
+</script>
 </body>
 </html>
