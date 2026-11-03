@@ -12,52 +12,68 @@
 <link rel="canonical" href="/">
 <style>
 :root{
-  --bg0:#0b0b1c; --bg1:#171636; --panel:rgba(255,255,255,.055); --line:rgba(167,139,250,.35);
-  --ink:#ece9f7; --muted:#b3add0; --accent:#a78bfa; --gold:#f5c66b; --ok:#7ee0a8; --warn:#ffb36b;
-  --helio:#f5c66b; --geo:#8fd3ff; --drac:#ff9ecf;
+  /* 宇宙の奥行き（深紫→マゼンタ→藍）に、白銀の光線画。カードは透過ガラス */
+  --bg0:#07061a; --bg1:#1b0f4d; --bg2:#5a1aa8; --bg3:#8a2be2;
+  --panel:rgba(22,14,60,.42); --panel2:rgba(255,255,255,.06); --line:rgba(210,190,255,.35); --glow:rgba(190,160,255,.55);
+  --ink:#f3effb; --muted:#c7bde6; --accent:#c9b6ff; --gold:#f2d9a0; --warn:#ffc08a;
+  --helio:#f6d98f; --geo:#9fd8ff; --drac:#ffb1e1;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg0),var(--bg1) 60%,#2a1d5c);min-height:100vh;line-height:1.7;padding:20px 16px 64px}
-main{max-width:920px;margin:0 auto}
-h1{font-size:1.5rem;margin:0 0 .25rem;letter-spacing:.02em}
-h2{font-size:1.15rem;margin:0 0 .75rem;color:var(--accent)}
-h3{font-size:1rem;margin:1.2rem 0 .4rem;color:var(--gold)}
+body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,sans-serif;color:var(--ink);min-height:100vh;line-height:1.75;padding:24px 16px 72px;position:relative;
+  background:
+    radial-gradient(1100px 700px at 12% 8%, rgba(160,60,255,.65), transparent 62%),
+    radial-gradient(900px 700px at 88% 22%, rgba(90,50,230,.75), transparent 60%),
+    radial-gradient(1100px 900px at 55% 100%, rgba(210,60,220,.5), transparent 60%),
+    radial-gradient(700px 600px at 72% 62%, rgba(60,130,255,.35), transparent 60%),
+    radial-gradient(500px 400px at 30% 55%, rgba(255,120,240,.22), transparent 60%),
+    linear-gradient(180deg,#0a0620,#1c0f52 45%,#2a1166);
+  background-attachment:fixed}
+#sky{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+main{max-width:920px;margin:0 auto;position:relative;z-index:1}
+h1{font-size:1.55rem;margin:0 0 .3rem;letter-spacing:.06em;text-shadow:0 0 18px rgba(200,170,255,.6)}
+h2{font-size:1.15rem;margin:0 0 .75rem;color:var(--accent);letter-spacing:.04em}
+h3{font-size:1rem;margin:1.2rem 0 .4rem;color:var(--gold);letter-spacing:.03em}
 p{margin:.4rem 0}
 .sub{color:var(--muted);font-size:.95rem}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin:16px 0;backdrop-filter:blur(4px)}
+.card{background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03)) ,var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;margin:18px 0;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,0 10px 40px rgba(10,0,40,.45),0 0 60px rgba(150,90,255,.12)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:.25rem}
-input,select{width:100%;padding:.6rem .7rem;border-radius:9px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--ink);font-size:1rem}
+input,select{width:100%;padding:.62rem .75rem;border-radius:10px;border:1px solid var(--line);background:rgba(8,4,30,.45);color:var(--ink);font-size:1rem;color-scheme:dark}
 input:focus,select:focus,button:focus{outline:2px solid var(--gold);outline-offset:2px}
+fieldset{background:var(--panel2)}
+legend{padding:0 .4rem}
 .check{display:flex;align-items:center;gap:.5rem;font-size:.95rem;color:var(--ink)}
-.check input{width:auto}
-button{cursor:pointer;border:none;border-radius:10px;padding:.7rem 1.1rem;font-size:1rem;font-weight:600}
-.primary{background:linear-gradient(135deg,#8b5cf6,#4f46e5);color:#fff;width:100%;margin-top:12px}
+.check input{width:auto;accent-color:#c9b6ff}
+button{cursor:pointer;border:none;border-radius:12px;padding:.75rem 1.1rem;font-size:1rem;font-weight:600;letter-spacing:.03em}
+.primary{background:linear-gradient(135deg,#a56bff,#5b3df5 60%,#8a2be2);color:#fff;width:100%;margin-top:14px;box-shadow:0 0 24px rgba(160,110,255,.55),0 6px 20px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.25)}
+.primary:hover{box-shadow:0 0 36px rgba(180,130,255,.8),0 6px 20px rgba(0,0,0,.35)}
 .ghost{background:rgba(255,255,255,.08);color:var(--ink);border:1px solid var(--line)}
-.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px;position:sticky;top:0;z-index:2;background:rgba(20,18,50,.92);padding:8px 0;border-radius:10px}
-.tab{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--line);padding:.45rem .8rem;border-radius:999px;font-size:.92rem}
-.tab[aria-selected="true"]{background:var(--accent);color:#120f2a;border-color:var(--accent)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px;position:sticky;top:0;z-index:2;background:rgba(14,8,44,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:8px;border-radius:12px;border:1px solid rgba(210,190,255,.18)}
+.tab{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--line);padding:.45rem .85rem;border-radius:999px;font-size:.92rem}
+.tab[aria-selected="true"]{background:linear-gradient(135deg,#d9c8ff,#b39bff);color:#1a0f3a;border-color:#e6dbff;box-shadow:0 0 16px rgba(200,170,255,.6)}
 .panel{display:none}.panel.on{display:block}
 table{width:100%;border-collapse:collapse;font-size:.95rem;font-variant-numeric:tabular-nums}
-th,td{padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+th,td{padding:.45rem .5rem;border-bottom:1px solid rgba(210,190,255,.14);text-align:left;vertical-align:top}
 th{color:var(--muted);font-weight:500;font-size:.85rem}
 .tag{display:inline-block;font-size:.78rem;padding:.05rem .45rem;border-radius:999px;border:1px solid currentColor;margin-left:.3rem}
 .helio{color:var(--helio)}.geo{color:var(--geo)}.drac{color:var(--drac)}
 .list{margin:.3rem 0 0;padding-left:1.1rem}
 .list li{margin:.15rem 0}
-textarea{width:100%;min-height:260px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.4);color:var(--ink);font-family:ui-monospace,Menlo,monospace;font-size:.85rem;padding:.7rem;line-height:1.5}
+textarea{width:100%;min-height:260px;border-radius:12px;border:1px solid var(--line);background:rgba(8,4,30,.5);color:var(--ink);font-family:ui-monospace,Menlo,monospace;font-size:.85rem;padding:.75rem;line-height:1.5}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
 .note{font-size:.85rem;color:var(--muted)}
 .warn{color:var(--warn)}
-.wheel{max-width:360px;margin:0 auto;display:block}
+.wheel{max-width:380px;margin:4px auto 10px;display:block;filter:drop-shadow(0 0 10px rgba(200,170,255,.45))}
 .status{font-size:.9rem;color:var(--muted);min-height:1.4em}
 .links a{color:var(--gold)}
 footer{margin-top:28px;font-size:.82rem;color:var(--muted)}
-@media (max-width:480px){body{padding:14px 12px 48px}.card{padding:14px}}
+@media (max-width:480px){body{padding:14px 12px 48px}.card{padding:15px}}
+@media (prefers-reduced-motion: reduce){#sky{display:none}}
 </style>
 </head>
 <body>
+<canvas id="sky" aria-hidden="true"></canvas>
 <main>
   <h1>🌟 ヘリオセントリック占星術～人生の羅針盤～</h1>
   <p class="sub">生年月日（と、分かれば出生時間・出生地）から、<span class="helio">ヘリオ＝魂の本来の資質</span>、<span class="geo">ジオ＝肉体を持つ今の自分</span>、<span class="drac">ドラコニック＝過去生で培ったもの</span>の3つの出生図と、経過図・進行図を計算します。結果はそのままAIに貼れる形で出ます。</p>
@@ -145,8 +161,18 @@ footer{margin-top:28px;font-size:.82rem;color:var(--muted)}
   </footer>
 </main>
 
+<script>
+(function () {
+  const c = document.getElementById('sky'); if (!c) return; const ctx = c.getContext('2d');
+  let stars = [], w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  function resize() { w = c.width = innerWidth * dpr; h = c.height = innerHeight * dpr; c.style.width = innerWidth + 'px'; c.style.height = innerHeight + 'px'; const n = Math.round((innerWidth * innerHeight) / 2600); stars = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, r: (Math.random() * 1.3 + .3) * dpr, p: Math.random() * Math.PI * 2, s: Math.random() * .02 + .005, big: Math.random() < .06 })); }
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function draw(t) { ctx.clearRect(0, 0, w, h); for (const st of stars) { const a = reduce ? .8 : .45 + .45 * Math.sin(st.p + t * st.s * .06); ctx.globalAlpha = a; ctx.fillStyle = st.big ? '#e9dcff' : '#ffffff'; ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2); ctx.fill(); if (st.big) { ctx.globalAlpha = a * .35; ctx.beginPath(); ctx.arc(st.x, st.y, st.r * 3.2, 0, Math.PI * 2); ctx.fill(); } } ctx.globalAlpha = 1; if (!reduce) requestAnimationFrame(draw); }
+  addEventListener('resize', resize); resize(); requestAnimationFrame(draw);
+})();
+</script>
 <script type="module">
-import { createCore, formatReport, fmtDeg, fmtPos, SIGNS } from './astro-core.js';
+import { createCore, formatReport, fmtDeg, fmtPos, SIGNS, SIGN_GLYPH } from './astro-core.js';
 
 const PREFS = [
 ['北海道（札幌）',43.06,141.35],['青森県（青森）',40.82,140.74],['岩手県（盛岡）',39.70,141.15],['宮城県（仙台）',38.27,140.87],['秋田県（秋田）',39.72,140.10],['山形県（山形）',38.24,140.36],['福島県（福島）',37.75,140.47],
@@ -156,7 +182,8 @@ const PREFS = [
 ['鳥取県（鳥取）',35.50,134.24],['島根県（松江）',35.47,133.05],['岡山県（岡山）',34.66,133.93],['広島県（広島）',34.40,132.46],['山口県（山口）',34.19,131.47],['徳島県（徳島）',34.07,134.56],['香川県（高松）',34.34,134.04],['愛媛県（松山）',33.84,132.77],['高知県（高知）',33.56,133.53],
 ['福岡県（福岡）',33.61,130.42],['佐賀県（佐賀）',33.25,130.30],['長崎県（長崎）',32.74,129.87],['熊本県（熊本）',32.79,130.74],['大分県（大分）',33.24,131.61],['宮崎県（宮崎）',31.91,131.42],['鹿児島県（鹿児島）',31.56,130.56],['沖縄県（那覇）',26.21,127.68]
 ];
-const GLYPH = { Sun:'☉', Moon:'☽', Mercury:'☿', Venus:'♀', Earth:'♁', Mars:'♂', Jupiter:'♃', Saturn:'♄', Uranus:'♅', Neptune:'♆', Pluto:'♇', Chiron:'⚷', TrueNode:'☊', ASC:'AC', MC:'MC' };
+const T = '\uFE0E';
+const GLYPH = { Sun:'☉'+T, Moon:'☽'+T, Mercury:'☿'+T, Venus:'♀'+T, Earth:'♁'+T, Mars:'♂'+T, Jupiter:'♃'+T, Saturn:'♄'+T, Uranus:'♅'+T, Neptune:'♆'+T, Pluto:'♇'+T, Chiron:'⚷'+T, TrueNode:'☊'+T, ASC:'AC', MC:'MC' };
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
@@ -234,13 +261,16 @@ function posTable(pos, { showSense = false, showHouse = false, cls = '' } = {}) 
 function aspectList(list, max = 14) { if (!list.length) return '<p class="note">該当なし</p>'; return `<ul class="list">${list.slice(0, max).map((a) => `<li>${esc(a.a)} - ${esc(a.b)}：${a.angle}° ${esc(a.name)}（オーブ ${a.orb}）</li>`).join('')}</ul>`; }
 function starList(list, max = 8) { if (!list.length) return '<p class="note">±1.5度以内の恒星はありません（あなた自身が恒星です）</p>'; return `<ul class="list">${list.slice(0, max).map((s) => `<li>${esc(s.body)} ↔ ${esc(s.star)}（${esc(s.constellation)}・差 ${s.distance}°）</li>`).join('')}</ul>`; }
 function wheel(pos, cusps) {
-  const R = 150, cx = 180, cy = 180;
+  const R = 160, cx = 190, cy = 190;
   const pt = (lon, r) => { const a = (180 - lon) * Math.PI / 180; return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; };
-  let s = `<svg class="wheel" viewBox="0 0 360 360" role="img" aria-label="ホロスコープの円"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="rgba(255,255,255,.35)"/><circle cx="${cx}" cy="${cy}" r="${R - 28}" fill="none" stroke="rgba(255,255,255,.2)"/>`;
-  for (let i = 0; i < 12; i++) { const [x1, y1] = pt(i * 30, R), [x2, y2] = pt(i * 30, R - 28); const [tx, ty] = pt(i * 30 + 15, R - 14); s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="rgba(255,255,255,.3)"/><text x="${tx}" y="${ty + 4}" text-anchor="middle" font-size="11" fill="#b3add0">${SIGNS[i].slice(0, 2)}</text>`; }
-  if (cusps) for (let h = 1; h <= 12; h++) { if (cusps[h] == null) continue; const [x1, y1] = pt(cusps[h], R - 28), [x2, y2] = pt(cusps[h], 40); s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${h === 1 || h === 10 ? '#f5c66b' : 'rgba(255,255,255,.15)'}" stroke-width="${h === 1 || h === 10 ? 1.5 : 1}"/>`; }
+  const W = 'rgba(240,232,255,.95)', w2 = 'rgba(220,205,255,.55)', w3 = 'rgba(220,205,255,.28)';
+  let s = `<svg class="wheel" viewBox="0 0 380 380" role="img" aria-label="ホロスコープの円"><defs><filter id="glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="core" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="rgba(255,255,255,.35)"/><stop offset="1" stop-color="rgba(255,255,255,0)"/></radialGradient></defs>`;
+  s += `<circle cx="${cx}" cy="${cy}" r="${R + 14}" fill="none" stroke="${w3}" stroke-width="1"/><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${W}" stroke-width="1.4" filter="url(#glow)"/><circle cx="${cx}" cy="${cy}" r="${R - 30}" fill="none" stroke="${w2}" stroke-width="1"/><circle cx="${cx}" cy="${cy}" r="${R - 90}" fill="none" stroke="${w2}" stroke-width="1"/><circle cx="${cx}" cy="${cy}" r="34" fill="url(#core)" stroke="${w3}"/>`;
+  for (let t = 0; t < 360; t += 5) { const big = t % 30 === 0, mid = t % 10 === 0; const [x1, y1] = pt(t, R + 14), [x2, y2] = pt(t, R + 14 - (big ? 14 : mid ? 8 : 4)); s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${big ? W : w3}" stroke-width="${big ? 1.2 : .8}"/>`; }
+  for (let i = 0; i < 12; i++) { const [x1, y1] = pt(i * 30, R), [x2, y2] = pt(i * 30, R - 30); const [tx, ty] = pt(i * 30 + 15, R - 15); s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${w2}"/><text x="${tx}" y="${ty + 5}" text-anchor="middle" font-size="14" fill="${W}" filter="url(#glow)">${SIGN_GLYPH[i]}${T}</text>`; }
+  if (cusps) for (let h = 1; h <= 12; h++) { if (cusps[h] == null) continue; const [x1, y1] = pt(cusps[h], R - 30), [x2, y2] = pt(cusps[h], 34); const main = h === 1 || h === 10 || h === 4 || h === 7; s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${main ? '#f2d9a0' : w3}" stroke-width="${main ? 1.4 : .8}" ${main ? 'filter="url(#glow)"' : ''}/>`; if (main) { const [lx, ly] = pt(cusps[h], 44); s += `<text x="${lx}" y="${ly + 4}" text-anchor="middle" font-size="9" fill="#f2d9a0">${h === 1 ? 'AC' : h === 10 ? 'MC' : h === 7 ? 'DC' : 'IC'}</text>`; } }
   const placed = [];
-  for (const k of Object.keys(pos)) { let r = R - 48; while (placed.some(([l, rr]) => Math.abs(((l - pos[k].lon + 540) % 360) - 180) < 7 && rr === r)) r -= 16; placed.push([pos[k].lon, r]); const [x, y] = pt(pos[k].lon, r); s += `<text x="${x}" y="${y + 5}" text-anchor="middle" font-size="14" fill="#ece9f7">${GLYPH[k] || ''}</text>`; }
+  for (const k of Object.keys(pos)) { if (k === 'ASC' || k === 'MC') continue; let r = R - 52; while (placed.some(([l, rr]) => Math.abs(((l - pos[k].lon + 540) % 360) - 180) < 7 && rr === r)) r -= 17; placed.push([pos[k].lon, r]); const [x, y] = pt(pos[k].lon, r); const [x0, y0] = pt(pos[k].lon, R - 30); s += `<line x1="${x0}" y1="${y0}" x2="${x}" y2="${y}" stroke="${w3}" stroke-dasharray="2 3"/><circle cx="${x}" cy="${y}" r="10" fill="rgba(20,10,60,.7)" stroke="${w2}"/><text x="${x}" y="${y + 5}" text-anchor="middle" font-size="13" fill="${W}" filter="url(#glow)">${GLYPH[k] || ''}</text>`; }
   return s + '</svg>';
 }
 function render({ name, chart, transits, progs, place, local, tds }) {
