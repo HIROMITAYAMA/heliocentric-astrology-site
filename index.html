@@ -78,19 +78,37 @@ footer{margin-top:28px;font-size:.82rem;color:var(--muted)}
           <div><label for="tz">時差（UTCから・日本は +9）</label><input id="tz" type="number" step="0.5" value="9"></div>
         </div>
       </div>
-      <div><label for="targetDate">経過図・進行図を見たい日①（初期値: 今日）</label><input id="targetDate" type="date"></div>
+    </div>
+    <h3 style="margin-top:18px">見たいもの</h3>
+    <div class="grid">
+      <fieldset style="border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:0">
+        <legend class="note">どの層を見る？（1つ）</legend>
+        <label class="check"><input type="radio" name="layer" value="helio" checked> <span class="helio">ヘリオ</span>：魂の本来の資質</label>
+        <label class="check"><input type="radio" name="layer" value="geo"> <span class="geo">ジオ</span>：肉体を持つ今の自分</label>
+        <label class="check"><input type="radio" name="layer" value="draconic"> <span class="drac">ドラコニック</span>：過去生で培ったもの</label>
+      </fieldset>
+      <fieldset style="border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:0">
+        <legend class="note">どの図を見る？（複数OK）</legend>
+        <label class="check"><input type="checkbox" id="figNatal" checked disabled> 出生図（いつも入ります）</label>
+        <label class="check"><input type="checkbox" id="figTransit"> 経過図：その日の空との関係（タイミング）</label>
+        <label class="check"><input type="checkbox" id="figProg"> 進行図：内側の成長の段階（二次進行）</label>
+        <p id="dracNote" class="note warn" style="display:none;margin:.3rem 0 0">ドラコニックには経過図・進行図はありません。見たいときは層をジオかヘリオにしてください。</p>
+      </fieldset>
+    </div>
+    <div id="dateFields" class="grid" style="display:none;margin-top:12px">
+      <div><label for="targetDate">見たい日①（初期値: 今日）</label><input id="targetDate" type="date"></div>
       <div><label for="targetDate2">見たい日②（任意・過去や未来の転機など）</label><input id="targetDate2" type="date"></div>
       <div><label for="targetDate3">見たい日③（任意）</label><input id="targetDate3" type="date"></div>
     </div>
     <p id="dstNote" class="note warn" style="display:none">1948〜1951年の5月〜9月は日本に夏時間がありました。母子手帳などの記録の時刻から1時間引いて入力してください。</p>
-    <button id="calc" class="primary" type="button">星読みデータを計算する</button>
+    <button id="calc" class="primary" type="button">この内容で星読みデータを出す</button>
     <p id="status" class="status" aria-live="polite"></p>
   </section>
 
   <section id="result" class="card" style="display:none" aria-labelledby="res-h">
     <h2 id="res-h">結果</h2>
     <p id="resMeta" class="note"></p>
-    <p class="note"><a href="#aiCard" style="color:var(--gold)">▼ AIに貼るテキストへ（ページの下）</a></p>
+    <p class="note">下のタブは表示の切り替えです。AIに貼る内容は、上の「見たいもの」で選んだものになります。<a href="#aiCard" style="color:var(--gold)">▼ AIに貼るテキストへ（ページの下）</a></p>
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" data-panel="p-helio" aria-selected="true" type="button">ヘリオ</button>
       <button class="tab" role="tab" data-panel="p-geo" aria-selected="false" type="button">ジオ</button>
@@ -108,15 +126,7 @@ footer{margin-top:28px;font-size:.82rem;color:var(--muted)}
 
   <section id="aiCard" class="card" style="display:none" aria-labelledby="ai-h">
     <h2 id="ai-h">AIに貼る</h2>
-      <p class="note">貼る層を選んでください（混ぜて読まれないように、見ているタブの層だけが入ります）。テキストをコピーして星読みAIに貼り、質問はそのあとに続けて書けます（例:「今の仕事はこのタイミングに合っている？」）。</p>
-      <div class="row" id="secBox" aria-label="貼る内容">
-        <label class="check"><input type="checkbox" data-sec="helio"> ヘリオ出生図</label>
-        <label class="check"><input type="checkbox" data-sec="geo"> ジオ出生図</label>
-        <label class="check"><input type="checkbox" data-sec="draconic"> ドラコニック</label>
-        <label class="check"><input type="checkbox" data-sec="transit"> 経過図</label>
-        <label class="check"><input type="checkbox" data-sec="progression"> 進行図（ジオ）</label>
-        <label class="check"><input type="checkbox" data-sec="helioProgression"> 進行図（ヘリオ）</label>
-      </div>
+      <p class="note">下のテキストを全部コピーして、星読みAIに貼り付けてください。質問はそのあとに続けて書けます（例:「今の仕事はこのタイミングに合っている？」）。入れる内容を変えたいときは、上の「見たいもの」を変えて出し直してください。</p>
       <p id="secSummary" class="note" style="color:var(--gold)"></p>
       <textarea id="aiText" readonly aria-label="AIに貼る星読みデータ"></textarea>
       <div class="row">
@@ -250,27 +260,40 @@ function render({ name, chart, transits, progs, place, local, tds }) {
   $('p-transit').innerHTML = `<p class="sub">経過図（トランジット）＝ その日の空の配置が、あなたの出生図にどう触れているか。${tds.length > 1 ? '日付ごとに並べています。' : ''}</p>` + transits.map((transit, i) => `<h3>■ ${esc(tds[i])}</h3><h3>ジオ（現実のタイミング）</h3>${posTable(transit.geo, { showHouse: !!hs, cls: 'geo' })}<h3>出生図へのアスペクト（経過天体 - 出生天体）</h3>${aspectList(transit.toNatal.geo, 20)}<h3>ヘリオ（魂の流れ）</h3>${posTable(transit.helio, { cls: 'helio' })}<h3>ヘリオ出生図へのアスペクト</h3>${aspectList(transit.toNatal.helio, 12)}`).join('<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">');
   $('p-prog').innerHTML = `<p class="sub">進行図（二次進行・1日=1年）＝ 生まれてからの年数を日数に置き換えた日の配置。内側の成長の段階。</p>` + progs.map((prog, i) => `<h3>■ ${esc(tds[i])}（進行日 ${esc(prog.progressedDate.toISOString().slice(0, 10))} UTC）</h3><h3>ジオ進行</h3>${posTable(prog.geo, { showHouse: !!hs, cls: 'geo' })}<h3>出生図へのアスペクト（進行天体 - 出生天体）</h3>${aspectList(prog.toNatal.geo, 20)}<h3>ヘリオ進行</h3>${posTable(prog.helio, { cls: 'helio' })}`).join('<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">');
   LAST = { name, chart, transits, progs, birthLabel: `${local}（${place}・日本時間）` };
-  const cur = document.querySelector('.tab[aria-selected="true"]');
-  setSections(TAB_SECTIONS[(cur && cur.dataset.panel) || 'p-helio'] || TAB_SECTIONS['p-helio']);
+  const sel = selection();
+  showTab(sel.sections.transit ? 'p-transit' : (sel.sections.progression || sel.sections.helioProgression) ? 'p-prog' : LAYER_PANEL[sel.layer]);
+  refreshText();
 }
 let LAST = null;
-const TAB_SECTIONS = { 'p-helio': ['helio'], 'p-geo': ['geo'], 'p-drac': ['draconic'], 'p-transit': ['geo', 'transit'], 'p-prog': ['geo', 'progression'] };
-function setSections(list) { document.querySelectorAll('#secBox input').forEach((c) => { c.checked = list.includes(c.dataset.sec); }); refreshText(); }
+const LAYER_PANEL = { helio: 'p-helio', geo: 'p-geo', draconic: 'p-drac' };
+function selection() {
+  const layer = document.querySelector('input[name="layer"]:checked').value;
+  const tr = $('figTransit').checked && layer !== 'draconic';
+  const pr = $('figProg').checked && layer !== 'draconic';
+  return { layer, sections: { helio: layer === 'helio', geo: layer === 'geo', draconic: layer === 'draconic', transit: tr, progression: pr && layer === 'geo', helioProgression: pr && layer === 'helio' } };
+}
+function syncInputs() {
+  const layer = document.querySelector('input[name="layer"]:checked').value;
+  const isDrac = layer === 'draconic';
+  $('dracNote').style.display = isDrac ? 'block' : 'none';
+  $('figTransit').disabled = isDrac; $('figProg').disabled = isDrac;
+  $('dateFields').style.display = (!isDrac && ($('figTransit').checked || $('figProg').checked)) ? 'grid' : 'none';
+}
+document.querySelectorAll('input[name="layer"], #figTransit, #figProg').forEach((el) => el.addEventListener('change', () => { syncInputs(); if (LAST) $('calc').click(); }));
+syncInputs();
+function showTab(panelId) { document.querySelectorAll('.tab').forEach((x) => x.setAttribute('aria-selected', x.dataset.panel === panelId ? 'true' : 'false')); document.querySelectorAll('.panel').forEach((p) => p.classList.toggle('on', p.id === panelId)); }
 function refreshText() {
   if (!LAST) return;
-  const sections = {}; document.querySelectorAll('#secBox input').forEach((c) => { sections[c.dataset.sec] = c.checked; });
+  const { sections } = selection();
   $('aiText').value = formatReport({ name: LAST.name, chart: LAST.chart, transits: LAST.transits, progressions: LAST.progs, sections, birthLabel: LAST.birthLabel });
-  const names = { helio: 'ヘリオ出生図', geo: 'ジオ出生図', draconic: 'ドラコニック', transit: '経過図', progression: '進行図（ジオ）', helioProgression: '進行図（ヘリオ）' };
+  const names = { helio: 'ヘリオ出生図', geo: 'ジオ出生図', draconic: 'ドラコニック出生図', transit: '経過図', progression: '進行図（ジオ）', helioProgression: '進行図（ヘリオ）' };
   const on = Object.keys(sections).filter((k) => sections[k]).map((k) => names[k]);
   const dates = LAST.transits.map((t) => t.date.toISOString().slice(0, 10)).join('、');
-  $('secSummary').textContent = `いま入っている内容: ${on.length ? on.join('＋') : 'なし（上のチェックを入れてください）'}${(sections.transit || sections.progression || sections.helioProgression) ? `（日付: ${dates}）` : ''}`;
+  $('secSummary').textContent = `いま入っている内容: ${on.join('＋')}${(sections.transit || sections.progression || sections.helioProgression) ? `（日付: ${dates}）` : ''}`;
 }
 // 日付を変えたら自動で計算し直す（押し忘れ防止）
 ['targetDate', 'targetDate2', 'targetDate3'].forEach((id) => $(id).addEventListener('change', () => { if (LAST) $('calc').click(); }));
-document.querySelectorAll('#secBox input').forEach((c) => c.addEventListener('change', refreshText));
-
-// ---- タブ・コピー ----
-document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () => { document.querySelectorAll('.tab').forEach((x) => x.setAttribute('aria-selected', 'false')); b.setAttribute('aria-selected', 'true'); document.querySelectorAll('.panel').forEach((p) => p.classList.remove('on')); $(b.dataset.panel).classList.add('on'); if (TAB_SECTIONS[b.dataset.panel]) setSections(TAB_SECTIONS[b.dataset.panel]); }));
+document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () => showTab(b.dataset.panel)));
 $('copyBtn').addEventListener('click', async () => { const t = $('aiText').value; if (!t) { $('copyStatus').textContent = '先に計算してください。'; return; } try { await navigator.clipboard.writeText(t); $('copyStatus').textContent = 'コピーしました。AIに貼り付けてください。'; } catch (e) { $('aiText').select(); $('copyStatus').textContent = '全選択しました。Ctrl+C（⌘+C）でコピーしてください。'; } });
 </script>
 </body>
